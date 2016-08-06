@@ -1,0 +1,34 @@
+<template name="AdminAddNewUser">
+  <!-- add new company modal -->
+  <div class="ui basic modal add-new-user">
+    <div class="ui container">
+      <div class="ui grid centered">
+        <div class="sixteen wide column add-new-user">
+          <!-- form div starts-->
+            <div class="ui inverted form">
+              <div class="three fields">
+                <div class="field">
+                  <label>Username</label>
+                  <input type="text" placeholder="username" name="username" id="username">
+                </div>
+                <div class="field">
+                  <label>Authorized E-Mail</label>
+                  <input type="email" placeholder="user@site.com" name="email" id="email">
+                </div>
+                <div class="field">
+                  <label>Password</label>
+                  <input type="password" placeholder="********" name="password" id="password">
+                </div>
+              </div>
+
+              <div class="actions">
+                <div class="ui button cancel" id="dismiss-button">Dismiss</div>
+                <div class="ui button positive submit" id="submit-button">Submit</div>
+              </div>
+            </div>
+          <!-- /form div ends-->
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

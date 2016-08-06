@@ -1,0 +1,21 @@
+<template name="LandingLayout">
+  <div class="ui container landing-layout">
+    {{> Template.dynamic template=nav}}
+
+    <p><h1>Welcome to landing page!</h1></p>
+
+  </div>
+</template>
+
+
+<template name="LoginLayout">
+  <div class="ui container landing-layout">
+    {{> Template.dynamic template=nav}}
+
+    <div class="ui stackable grid centered">
+      <div class="eight wide column">
+        {{> atForm }}
+      </div>
+    </div>
+  </div>
+</template>
