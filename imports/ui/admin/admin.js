@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import './layout.html'; // LandingLayout
+import './layout.html'; // AdminLayout
 import './left_menu.html'; // AdminLeftMenu
 import './add_new_user.html'; // AdminAddNewUser
 import './list_users.html'; // AdminListCourseAdmins, AdminListInstructors, AdminListStudents
@@ -113,7 +113,7 @@ Template.AdminLeftMenu.events({
                 Session.set("success", false); return false;
               }
             }else {
-              //toastr.error('Please correct the errors!');
+              toastr.error('Please correct the errors!');
               return false;
             }
         }
@@ -125,7 +125,12 @@ Template.AdminLeftMenu.events({
 
 
 Template.AdminListUsersTable.events({
-  'click #remove-user'(event, instance) { Meteor.call('admin_remove_user', this._id); },
+  'click #remove-user'(event, instance) {
+    Meteor.call('admin_remove_user', this._id, function(err, data) {
+      if (err) { toastr.error(err.reason); }
+      else { toastr.success('User has been deleted!'); }
+    });
+  },
 });
 
 
@@ -133,7 +138,7 @@ Template.AdminListUsersTable.events({
 
 Template.AdminListCourseAdmins.helpers({
   users() {
-    return Meteor.users.find({ roles: 'courseadmin'})
+    return Meteor.users.find({ roles: 'courseadmin'}, {sort: { createdAt: -1 } })
     .map(function(document, index) {
       document.index = index + 1;
       return document;
@@ -165,13 +170,4 @@ Template.AdminListStudents.helpers({
       return document;
     });
   }
-});
-
-
-/////////////////// registerHelpers
-
-setInterval(function() { Session.set("time", new Date()); }, 60000);
-Template.registerHelper("dateFromNow", function(date){
-  Session.get('time');
-  return moment(date).fromNow();
 });

@@ -7,11 +7,10 @@
 -
 -
 -
--
 
+- v0.1.1.3 : ghost blog integration
 - v0.1.1.2 :
   \_ toast error and success messages added for admin users
-
 - v0.1.1.1 :
  \_ Project initialization. Necessary router and template packages added.
  \_ Progress bar added.

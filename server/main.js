@@ -4,7 +4,19 @@ import '/imports/startup/server/importtoserver.js';
 
 import { Accounts } from 'meteor/accounts-base';
 
+import ghost from 'ghost';
+
+import { Courses } from '/imports/api/collections/courses.js';
+
+
 Meteor.startup(() => {
+  ghost().then(function (ghostServer) {
+    const config = ghostServer.config;
+    // modify theme and config ...
+    ghostServer.start();
+  });
+
+
   if (Meteor.users.find().count() === 0) {
     const users = [
       { username: "ugur",
@@ -53,5 +65,11 @@ Meteor.publish("UsersForAdmin", function(role){
         fields: {'username':1, 'emails':1, 'roles':1, 'createdAt':1, 'profile': 1}
       });
     }
+  }
+});
+
+Meteor.publish("CoursesForInstructor", function(){
+  if (Roles.userIsInRole(this.userId, ['instructor'])) {
+    return Courses.find({instructor: this.userId});
   }
 });

@@ -1,0 +1,20 @@
+<template name="InstructorLeftMenu">
+  <div class="ui" style="border-right:1px dashed gray;">
+    <h3><i class="settings icon"></i> Profile Management</h3>
+    <div class="menu">
+      <a href="#" class="item"><i class="edit icon"></i> Edit Profile</a><br />
+    </div>
+
+    <h3><i class="user icon"></i> Course Management</h3>
+    <div class="menu">
+      <a class="item" id="instructor-add-new-course" style="cursor:pointer;"><i class="user add icon"></i> Add New Course</a><br />
+      <a href="{{ pathFor 'instructor_list_courses' }}" class="item"><i class="list layout icon"></i> Course List</a><br />
+    </div>
+
+
+  </div>
+
+  {{#if isInRole 'instructor'}}
+    {{> InstructorAddNewCourse }}
+  {{/if}}
+</template>

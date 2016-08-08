@@ -12,6 +12,13 @@
       <a href="{{ pathFor 'admin_list_instructors' }}" class="item"><i class="list layout icon"></i> Instructors</a><br />
       <a href="{{ pathFor 'admin_list_students' }}" class="item"><i class="list layout icon"></i> Students</a><br />
     </div>
+
+
+    <h3><i class="write icon"></i> Blog Management</h3>
+    <div class="menu">
+      <a href="http://localhost:2368/admin/" style="cursor:pointer;"><i class="external icon"></i> Blog Admin</a><br />
+    </div>
+
   </div>
 
   {{#if isInRole 'admin'}}

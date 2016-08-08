@@ -27,6 +27,7 @@ Meteor.methods({
   */
   admin_remove_user(user_id) {
     Meteor.users.remove(user_id);
+    return "OK";
   },
 
 
