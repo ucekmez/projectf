@@ -7,34 +7,17 @@
     {{else}}
       <div class="ui stackable grid">
         <div class="four wide column">
-          {{> AdminLeftMenu }}
+          {{> Template.dynamic template=leftmenu}}
         </div>
         <div class="twelve wide column">
-          Main area
+          {{> Template.dynamic template=main}}
         </div>
       </div>
     {{/unless}}
   </div>
-
 </template>
 
 
-
-<template name="AdminLeftMenu">
-  <div class="ui" style="border-right:1px dashed gray;">
-    <h3><i class="settings icon"></i> Profile Management</h3>
-    <div class="menu">
-      <a href="#" class="item"><i class="edit icon"></i> Edit Profile</a>
-    </div>
-
-    <h3><i class="user icon"></i> User Management</h3>
-    <div class="menu">
-      <a href="#" class="item" id="admin-add-new-user"><i class="user add icon"></i> Add New User</a><br />
-      <a href="#" class="item"><i class="list layout icon"></i> List Users</a>
-    </div>
-  </div>
-
-  {{#if isInRole 'admin'}}
-    {{> AdminAddNewUser }}
-  {{/if}}
+<template name="AdminMainScreen">
+    <h2>Hi, {{ currentUser.username }}! Welcome to your dashboard!</h2>
 </template>

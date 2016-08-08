@@ -34,6 +34,24 @@ Meteor.startup(() => {
 
 AccountsTemplates.configure({
   postSignUpHook: function(userId, info) {
-    Roles.addUsersToRoles(userId, ['user']);
+    Roles.addUsersToRoles(userId, ['student']);
   },
+});
+
+Meteor.publish("UsersForAdmin", function(role){
+  if (Roles.userIsInRole(this.userId, ['admin'])) {
+    if (role === 'courseadmin') {
+      return Meteor.users.find({roles: 'courseadmin'}, {
+        fields: {'username':1, 'emails':1, 'roles':1, 'createdAt':1, 'profile': 1}
+      });
+    } else if (role === 'instructor') {
+      return Meteor.users.find({roles: 'instructor'}, {
+        fields: {'username':1, 'emails':1, 'roles':1, 'createdAt':1, 'profile': 1}
+      });
+    } else if (role === 'student') {
+      return Meteor.users.find({roles: 'student'}, {
+        fields: {'username':1, 'emails':1, 'roles':1, 'createdAt':1, 'profile': 1}
+      });
+    }
+  }
 });
