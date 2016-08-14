@@ -24,7 +24,7 @@
       <h4 class="ui header">
         <div class="content" style="width:100%;">
           <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
-          <a class="list-item-header" href=""><i class="blue edit icon"></i>
+          <a class="list-item-header" href="{{ pathFor 'instructor_single_course' courseId=shortid }}"><i class="blue edit icon"></i>
             {{ title }} [{{ code }}]
           </a>
           <div class="sub header">

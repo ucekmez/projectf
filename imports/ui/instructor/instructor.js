@@ -7,6 +7,7 @@ import './layout.html';         // InstructorLayout
 import './left_menu.html';      // InstructorLeftMenu
 import './add_new_course.html'; // InstructorAddNewCourse
 import './list_courses.html';   // InstructorListCourses
+import './edit_course.html';   // InstructorEditCourse
 
 
 
@@ -38,6 +39,13 @@ instructorRoutes.route('/courses', { name: 'instructor_list_courses',
     FlowRouter.subsReady("CoursesForInstructor", function() {
       NProgress.done();
     });
+  }
+});
+
+instructorRoutes.route('/course/:courseId', { name: 'instructor_single_course',
+  action() {
+    BlazeLayout.render('InstructorLayout', {main: 'InstructorEditCourse', nav: 'MainNavigation', leftmenu: 'InstructorLeftMenu' });
+    NProgress.done();
   }
 });
 
@@ -144,5 +152,58 @@ Template.InstructorListCourses.events({
       if (err) { toastr.error(err.reason); }
       else { toastr.success('Course has been deleted!'); }
     });
+  }
+});
+
+Template.InstructorEditCourse.onRendered(() => {
+  $('.fr-edit-course .fr-toolbar').addClass("ui segment fr-toolbar");
+  $('.fr-edit-course .fr-wrapper').addClass("ui segment fr-toolbar");
+
+  $.getScript("/js/datetimepicker.js")
+    .done(function(script, textStatus) {
+      $('#startdate-edit').datetimepicker({
+        format:'Y-m-d',
+        onShow:function( ct ){
+         this.setOptions({
+          minDate: 0,
+          maxDate:$('#enddate-edit').val()?moment($('#enddate-edit').val()).subtract(1,'days').format('YYYY-MM-DD'):moment().add(10,'days').format('YYYY-MM-DD')
+         })
+        },
+        timepicker:false
+      });
+
+      $('#enddate-edit').datetimepicker({
+        format:'Y-m-d',
+        onShow:function( ct ){
+         this.setOptions({
+          minDate:$('#startdate-edit').val()?moment($('#startdate-edit').val()).add(1,'days').format('YYYY-MM-DD'):moment().add(1,'days').format('YYYY-MM-DD'),
+          maxDate:$('#startdate-edit').val()? moment($('#startdate-edit').val()).add(30,'days').format('YYYY-MM-DD'):moment().add(30,'days').format('YYYY-MM-DD')
+         })
+        },
+        timepicker:false
+      });
+  });
+});
+
+Template.InstructorEditCourse.helpers({
+  course() {
+    return Courses.find({ shortid: FlowRouter.getParam('courseId')});
+  },
+  getFEContext() {
+    const self = this;
+    return {
+      //_value: self.description, // set HTML content
+      //_keepMarkers: true, // preserving cursor markers
+      _className: "fr-edit-course", // Override wrapper class
+      toolbarInline: false, // Set some FE options
+      initOnClick: false, // Set some FE options
+      tabSpaces: false, // Set some FE options
+      disableRightClick: false,
+      maxCharacters: 2048,
+      width: 'auto',
+      height: '200',
+      heightMax: '200',
+      toolbarButtons: ['bold', 'italic', 'underline', 'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL', 'insertHR', 'insertLink', 'insertImage', 'insertVideo', 'undo'],
+    };
   }
 });

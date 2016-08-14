@@ -1,0 +1,46 @@
+<template name="InstructorEditCourse">
+  <h1>Edit Course</h1>
+  <div class="ui divider"></div>
+
+  {{#with course}}
+    <div class="twelve wide column edit-question">
+      <!-- form div starts-->
+      <div class="ui">
+        <div class="ui form">
+
+          <div class="field">
+            <label>Course Code</label>
+            <input type="text" placeholder="CS101" name="code_edit" id="code-edit" value="{{ code }}"/>
+          </div>
+
+          <div class="field">
+            <label>Course Title</label>
+            <input type="text" placeholder="Course Title" name="title_edit" id="title-edit" value="{{ title }}"/>
+          </div>
+
+          <div class="two fields">
+            <div class="field">
+              <label>Opens At</label>
+              <input type="text" placeholder="YYYY-MM-DD" name="startdate_edit" id="startdate-edit"/>
+            </div>
+
+            <div class="field">
+              <label>Ends At</label>
+              <input type="text" placeholder="YYYY-MM-DD" name="enddate_edit" id="enddate-edit">
+            </div>
+          </div>
+
+          <div class="field">
+            {{> froalaReactive getFEContext disableRightClick=true}}
+          </div>
+
+
+          <div class="actions">
+            <div class="ui button positive submit" id="submit-button">Submit</div>
+          </div>
+        </div>
+      </div>
+      <!-- /form div ends-->
+    </div>
+  {{/with}}
+</template>
