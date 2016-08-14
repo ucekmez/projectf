@@ -5,11 +5,12 @@
 -
 -
 -
--
+- v0.1.1.5 :
+  \_ instructor can now update his profile
+  \_ course notes are added
 - v0.1.1.4 :
   \_ froala editor added.
   \_ course information can be edited
-  \_
 - v0.1.1.3 :
   \_ ghost blog integration
 - v0.1.1.2 :

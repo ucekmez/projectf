@@ -26,6 +26,12 @@
           <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
           <a class="list-item-header" href="{{ pathFor 'instructor_single_course' courseId=shortid }}"><i class="blue edit icon"></i>
             {{ title }} [{{ code }}]
+
+            {{#if isActive }}
+              <div class="ui left pointing teal basic label">active!</div>
+            {{else}}
+              <div class="ui left pointing red basic label">passive!</div>
+            {{/if }}
           </a>
           <div class="sub header">
             {{#if hasPassed startDate }}

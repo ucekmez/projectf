@@ -5,6 +5,7 @@ import '/imports/startup/server/importtoserver.js';
 import { Accounts } from 'meteor/accounts-base';
 
 import ghost from 'ghost';
+import shortid from 'shortid';
 
 import { Courses } from '/imports/api/collections/courses.js';
 import { Schedules } from '/imports/api/collections/schedules.js';
@@ -24,6 +25,7 @@ Meteor.startup(() => {
       { username: "ugur",
         email: "a@f.com",
         roles: ['admin'],
+        profile : {'name': "", 'gender': "", 'age': "", 'address': "", 'shortid': shortid.generate()}
       }
     ];
 
@@ -33,6 +35,7 @@ Meteor.startup(() => {
         email: user.email,
         username: user.username,
         password: "asdasd",
+        profile: user.profile
       });
 
       if (user.roles.length > 0) {

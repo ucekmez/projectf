@@ -16,6 +16,7 @@ Meteor.methods({
         startDate  : startdate,
         endDate    : enddate,
         instructor : user_id,
+        isActive   : false,
       });
 
       return Courses.findOne(course_id).shortid;
@@ -31,14 +32,16 @@ Meteor.methods({
     const user_id = Meteor.userId();
 
     if (Roles.userIsInRole(user_id, ['instructor'])) {
+      course_shortid = Courses.findOne(course_id).shortid;
       Courses.remove(course_id);
+      Schedules.remove({ course: course_shortid});
       return "OK";
     }else {
       return -1;
     }
   },
 
-  instructor_edit_course(shortid, code, title, startdate, enddate) {
+  instructor_edit_course(shortid, code, title, startdate, enddate, is_active) {
     const user_id = Meteor.userId();
 
     if (Roles.userIsInRole(user_id, ['instructor'])) {
@@ -47,7 +50,8 @@ Meteor.methods({
           code: code,
           title: title,
           startDate: startdate,
-          endDate: enddate
+          endDate: enddate,
+          isActive: is_active,
         }
       });
     } else {

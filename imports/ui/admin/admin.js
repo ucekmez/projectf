@@ -5,7 +5,7 @@ import './layout.html'; // AdminLayout
 import './left_menu.html'; // AdminLeftMenu
 import './add_new_user.html'; // AdminAddNewUser
 import './list_users.html'; // AdminListCourseAdmins, AdminListInstructors, AdminListStudents
-
+import './edit_profile'; // AdminEditProfile
 
 /***********************       ROUTES       ***********************/
 
@@ -63,6 +63,13 @@ adminRoutes.route('/students', { name: 'admin_list_students',
     FlowRouter.subsReady("UsersForAdmin", function() {
       NProgress.done();
     });
+  }
+});
+
+adminRoutes.route('/profile', { name: 'admin_edit_profile',
+  action() {
+    BlazeLayout.render('AdminLayout', {main: 'AdminEditProfile', nav: 'MainNavigation', leftmenu: 'AdminLeftMenu' });
+    NProgress.done();
   }
 });
 
@@ -169,5 +176,44 @@ Template.AdminListStudents.helpers({
       document.index = index + 1;
       return document;
     });
+  }
+});
+
+
+Template.AdminEditProfile.onRendered(() => {
+  $('#gender-edit').dropdown('set selected', Meteor.user().profile.gender);
+});
+
+Template.AdminEditProfile.events({
+  'click #submit-button'(event, instance) {
+    $('.ui.form')
+      .form({
+        fields: {
+          name_edit       : 'empty',
+          age_edit        : 'empty',
+          gender_edit     : 'empty',
+          address_edit    : 'empty',
+          email_edit      : 'empty',
+        }
+      });
+
+    if ($('.ui.form').form('is valid')) {
+      const name_edit     = $('#name-edit').val();
+      const age_edit      = $('#age-edit').val();
+      const gender_edit   = $('#gender-edit').val();
+      const address_edit  = $('#address-edit').val();
+      const email_edit    = $('#email-edit').val();
+
+      Meteor.call('admin_edit_profile', name_edit, age_edit, gender_edit, address_edit, email_edit, function (err, data) {
+        if (err) {
+          toastr.error(err.reason);
+        }else {
+          toastr.success('Profile has been updated!');
+          FlowRouter.go('admin_dashboard');
+        }
+      });
+    }else {
+      toastr.error('Please correct the errors!');
+    }
   }
 });

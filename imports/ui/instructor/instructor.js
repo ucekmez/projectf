@@ -73,9 +73,7 @@ instructorRoutes.route('/course/:courseId/schedule', { name: 'instructor_single_
   action() {
     BlazeLayout.render('InstructorEditScheduleLayout', {main: 'InstructorEditSchedule', nav: 'MainNavigation'});
     FlowRouter.subsReady("SingleScheduleForInstructor", function() {
-      FlowRouter.subsReady("SingleCourseForInstructor", function() {
-        NProgress.done();
-      });
+      NProgress.done();
     });
   }
 });
@@ -99,7 +97,7 @@ Template.InstructorAddNewCourse.onRendered(() => {
         onShow:function( ct ){
          this.setOptions({
           minDate: 0,
-          maxDate:$('#enddate').val()?moment($('#enddate').val()).subtract(1,'days').format('YYYY-MM-DD'):moment().add(10,'days').format('YYYY-MM-DD')
+          maxDate:$('#enddate').val()?moment($('#enddate').val()).subtract(1,'days').format('YYYY-MM-DD'):moment().add(100,'days').format('YYYY-MM-DD')
          })
         },
         timepicker:false
@@ -216,7 +214,7 @@ Template.InstructorEditCourse.onRendered(() => {
         onShow:function( ct ){
          this.setOptions({
           minDate: 0,
-          maxDate:$('#enddate-edit').val()?moment($('#enddate-edit').val()).subtract(1,'days').format('YYYY-MM-DD'):moment().add(10,'days').format('YYYY-MM-DD')
+          maxDate:$('#enddate-edit').val()?moment($('#enddate-edit').val()).subtract(1,'days').format('YYYY-MM-DD'):moment().add(100,'days').format('YYYY-MM-DD')
          })
         },
         timepicker:false
@@ -279,6 +277,7 @@ Template.InstructorEditCourse.events({
           title_edit       : 'empty',
           startdate_edit   : 'empty',
           enddate_edit     : 'empty',
+          is_active        : 'empty'
         }
       });
 
@@ -287,8 +286,9 @@ Template.InstructorEditCourse.events({
       const title_edit     = $('#title-edit').val();
       const startdate_edit = $('#startdate-edit').val();
       const enddate_edit   = $('#enddate-edit').val();
+      const is_active      = $('#is-active').is(':checked');
 
-      Meteor.call('instructor_edit_course', FlowRouter.getParam('courseId'), code_edit, title_edit, startdate_edit, enddate_edit, function (err, data) {
+      Meteor.call('instructor_edit_course', FlowRouter.getParam('courseId'), code_edit, title_edit, startdate_edit, enddate_edit, is_active, function (err, data) {
         if (err) {
           toastr.error(err.reason);
         }else {
