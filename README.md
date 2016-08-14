@@ -4,10 +4,13 @@
 # changelog
 -
 -
--
+- v0.1.1.6 :
+  \_
+
 - v0.1.1.5 :
-  \_ instructor can now update his profile
+  \_ instructor&admin can now update their profile
   \_ course notes are added
+  \_ courses can be activated/deactivated
 - v0.1.1.4 :
   \_ froala editor added.
   \_ course information can be edited
