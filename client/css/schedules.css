@@ -1,0 +1,117 @@
+.schedule-thumbnails {
+  list-style: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 80px;
+  max-height: 80px;
+}
+
+.schedule-week {
+  padding: 15px;
+  margin: 0 0 15px;
+  height: 100px;
+  max-height: 100px;
+  overflow: hidden;
+  white-space:nowrap;
+  font-size: 0.6vw !important;
+  line-height: 60%;
+  user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+.schedule-thumbnail-placeholder {
+  background: #DADADA;
+  position: relative;
+}
+.schedule-thumbnail-placeholder:after {
+  content: " ";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 15px;
+  background-color: #FFF;
+}
+
+.add-icon-container {
+  text-align:center;
+  width:100%;
+}
+
+#week-add-icon {
+  position:relative;
+  z-index:10;
+  margin: auto;
+}
+
+#week-delete-icon {
+  z-index:999;
+  position:absolute;
+  float:left;
+  margin-left: -10px;
+  margin-top: 4px;
+  color: red;
+  font-size:30px;
+}
+
+
+/*
+.bigger-week-container {
+  height: 400px;
+  border: 1px dashed #ddd;
+  width:auto;
+}
+*/
+
+.thumbnails {
+  height:500px;
+  overflow: auto;
+}
+
+
+.week-area {
+  z-index: 10;
+  position:absolute;
+  width:96%;
+  height:400px;
+}
+
+#start-editing {
+  padding-top:20px;
+  position: fixed;
+}
+
+textarea {
+  width:100%;
+  height:400px;
+  -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+.active {
+  display:inline;
+}
+
+.passive {
+  display: none;
+}
+
+
+
+.ui.container.preview-schedule {
+  margin:0px !important;
+}
+
+
+.fr-toolbar.ui.segment {
+  padding: 0px !important;
+}
+
+.fr-wrapper.ui.segment {
+  padding: 0px !important;
+}

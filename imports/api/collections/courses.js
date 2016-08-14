@@ -25,12 +25,22 @@ Courses.attachSchema(new SimpleSchema({
   },
   updatedAt: {
     type: Date,
-    autoValue: function() {
-      if (this.isUpdate) {
-        return new Date();
-      }
-    },
+    autoValue: function() { if (this.isUpdate) { return new Date(); } },
     denyInsert: true,
     optional: true
   }
 }));
+
+
+Courses.allow({
+  update: function (userId, doc, fields, modifier) {
+    if (userId && doc.instructor === userId) {
+      return true;
+    }
+  },
+  remove: function (userId, doc, fields, modifier) {
+    if (userId && doc.instructor === userId) {
+      return true;
+    }
+  }
+});

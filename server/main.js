@@ -7,7 +7,9 @@ import { Accounts } from 'meteor/accounts-base';
 import ghost from 'ghost';
 
 import { Courses } from '/imports/api/collections/courses.js';
+import { Schedules } from '/imports/api/collections/schedules.js';
 
+Sortable.collections = ['schedules'];
 
 Meteor.startup(() => {
   ghost().then(function (ghostServer) {
@@ -71,5 +73,25 @@ Meteor.publish("UsersForAdmin", function(role){
 Meteor.publish("CoursesForInstructor", function(){
   if (Roles.userIsInRole(this.userId, ['instructor'])) {
     return Courses.find({instructor: this.userId});
+  }
+});
+
+Meteor.publish("SingleCourseForInstructor", function(course_shortid){
+  if (Roles.userIsInRole(this.userId, ['instructor'])) {
+    return Courses.find({shortid: course_shortid});
+  }
+});
+
+Meteor.publish("SchedulesIDsForInstructor", function(){
+  if (Roles.userIsInRole(this.userId, ['instructor'])) {
+    return Schedules.find({instructor: this.userId}, {
+      fields: { '_id': 1, 'course': 1 }
+    });
+  }
+});
+
+Meteor.publish("SingleScheduleForInstructor", function(course_id){
+  if (Roles.userIsInRole(this.userId, ['instructor'])) {
+    return Schedules.find({course: course_id});
   }
 });

@@ -1,4 +1,5 @@
 import { Courses } from '/imports/api/collections/courses.js';
+import { Schedules } from '/imports/api/collections/schedules.js';
 
 Meteor.methods({
   /*
@@ -17,19 +18,115 @@ Meteor.methods({
         instructor : user_id,
       });
 
-      return course_id;
+      return Courses.findOne(course_id).shortid;
     }else {
       return -1;
     }
   },
 
   /*
-    admin_remove_user: removes the user
+    instructor_remove_course: removes the course
   */
   instructor_remove_course(course_id) {
-    Courses.remove(course_id);
-    return "OK";
+    const user_id = Meteor.userId();
+
+    if (Roles.userIsInRole(user_id, ['instructor'])) {
+      Courses.remove(course_id);
+      return "OK";
+    }else {
+      return -1;
+    }
   },
+
+  instructor_edit_course(shortid, code, title, startdate, enddate) {
+    const user_id = Meteor.userId();
+
+    if (Roles.userIsInRole(user_id, ['instructor'])) {
+      Courses.update({ shortid: shortid}, {
+        $set: {
+          code: code,
+          title: title,
+          startDate: startdate,
+          endDate: enddate
+        }
+      });
+    } else {
+      return -1;
+    }
+  },
+
+  instructor_add_new_schedule(course_shortid) {
+    const user_id = Meteor.userId();
+
+    if (Roles.userIsInRole(user_id, ['instructor'])) {
+      const schedule_id = Schedules.insert({
+        content    : '<p><span style="font-size: 20px;">Week # 1 content</span></p>',
+        order      : 0,
+        course     : course_shortid,
+        instructor : user_id,
+      });
+      return course_shortid;
+    } else {
+      return -1;
+    }
+  },
+
+  instructor_add_new_week_to_schedule(last_order, course_shortid) {
+    const user_id = Meteor.userId();
+
+    if (Roles.userIsInRole(user_id, ['instructor'])) {
+      const schedule_id = Schedules.insert({
+        content    : '',
+        order      : last_order,
+        course     : course_shortid,
+        instructor : user_id,
+      });
+      return schedule_id;
+    } else {
+      return -1;
+    }
+  },
+
+  /*
+    instructor_week_from_schedule: removes a week from course schedule
+  */
+  instructor_week_from_schedule(week_id) {
+    const user_id = Meteor.userId();
+
+    if (Roles.userIsInRole(user_id, ['instructor'])) {
+      Schedules.remove(week_id);
+      return "OK";
+    }else {
+      return -1;
+    }
+  },
+
+  /*
+    instructor_edit_profile: instructor edits his profile
+  */
+
+  instructor_edit_profile(name, age, gender, address, email) {
+    const user_id = Meteor.userId();
+
+    if (Roles.userIsInRole(user_id, ['instructor'])) {
+      const profile = {}
+      profile.name = name;
+      profile.age = age;
+      profile.gender = gender;
+      profile.address = address;
+
+      Meteor.users.update({ _id: user_id }, {
+        $set: {
+          profile: profile,
+          'emails.0.address': email.toLowerCase()
+        }
+      });
+
+      return "OK";
+    }else {
+      return -1;
+    }
+  }
 
 
 });

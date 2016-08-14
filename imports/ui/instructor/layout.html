@@ -19,5 +19,11 @@
 
 
 <template name="InstructorMainScreen">
-    <h2>Hi, {{ currentUser.username }}! Welcome to your dashboard!</h2>
+    <h2>Hi,
+      {{#if currentUser.profile.name }}
+        {{ currentUser.profile.name }}!
+      {{else}}
+        {{ currentUser.username }}!
+      {{/if}}
+     Welcome to your dashboard!</h2>
 </template>

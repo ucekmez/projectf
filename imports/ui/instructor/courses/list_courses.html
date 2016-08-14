@@ -28,13 +28,28 @@
             {{ title }} [{{ code }}]
           </a>
           <div class="sub header">
-            starts <b>{{ dateFromNow startDate }}</b>, ends <b>{{ dateFromNow endDate }}</b>
+            {{#if hasPassed startDate }}
+              started <b>{{ dateFromNow startDate }}</b>,
+            {{else}}
+              starts <b>{{ dateFromNow startDate }}</b>,
+            {{/if}}
+
+            {{#if hasPassed endDate }}
+              ended <b>{{ dateFromNow endDate }}</b>,
+            {{else}}
+              ends <b>{{ dateFromNow endDate }}</b>,
+            {{/if}}
           </div>
         </div>
       </h4>
     </td>
     <td class="single line right aligned">
-      <a id="remove-course" style="cursor:pointer;"><i class="large red remove icon" data-content="Remove"></i></a>
+      {{#if hasSchedule shortid }}
+        <a id="edit-schedule" style="cursor:pointer;" data-tooltip="Edit Course Schedule" data-position="left center"   data-inverted=""><i class="huge green attach icon listing"></i></a>
+      {{else}}
+        <a id="add-new-schedule" style="cursor:pointer;" data-tooltip="Add Schedule to this Course" data-position="left center"   data-inverted=""><i class="huge orange attach icon listing"></i></a>
+      {{/if}}
+      <a id="remove-course"      style="cursor:pointer;" data-tooltip="Remove"        data-position="right center"  data-inverted=""><i class="huge red remove icon listing"></i></a>
     </td>
   </tr>
 </template>

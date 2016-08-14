@@ -1,12 +1,27 @@
-.main-navigation {
-  margin-top:20px;
-}
-
-.nav-first-link {
+.nav-link {
   margin-left:20px;
+  margin-top:10px;
 }
 
 .fr-toolbar {
-  margin:0;
-  padding:0;
+  padding:0 !important;
+}
+
+.add-new-course-button,
+.add-new-user-button {
+  margin-left:0 !important;
+}
+
+body {
+	background:#f6f4f0 url(/img/texture.png);
+	background-repeat:repeat-y repeat-x;
+  height: 100%;
+	z-index:10;
+  position:relative;
+  top:20px;
+}
+
+
+.huge.icon.listing {
+  font-size: 34px;
 }

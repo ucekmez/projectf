@@ -1,0 +1,43 @@
+<template name="InstructorEditScheduleLayout">
+  <div class="ui container instructor-layout">
+    {{> Template.dynamic template=nav}}
+    {{> Template.dynamic template=main}}
+  </div>
+</template>
+
+<template name="InstructorEditSchedule">
+  <div style="margin-bottom:10px;margin-top:10px;" class="show-edit-name">
+    <h2>Schedule for {{ course.title }} [{{ course.code }}]</h2>
+  </div>
+
+  <div class="ui stackable grid">
+    <div class="four wide column thumbnails">
+      <ul class="schedule-thumbnails">
+        {{#sortable items=weeks options=sortableOptions}}
+          <li class="schedule-week ui segment" id="thumbnail">
+            <i class="red delete icon" style="cursor:pointer" id="week-delete-icon" aria-hidden="true"></i>
+            <span>{{{ scaleText content }}}</span>
+          </li>
+        {{/sortable}}
+        <div class="add-icon-container"><i class="huge blue add icon" style="cursor:pointer;" id="week-add-icon" aria-hidden="true"></i></div>
+      </ul>
+    </div>
+
+    <div class="twelve wide column">
+      <div id="start-editing">
+          <h3>Please choose a note to edit.</h3>
+      </div>
+
+      {{#each weeks }}
+        {{> EditSingleWeek}}
+      {{/each}}
+    </div>
+  </div>
+</template>
+
+
+<template name="EditSingleWeek">
+  <div id="week-{{_id}}" class="week-area passive">
+    {{> froalaReactive getFEContext disableRightClick=true}}
+  </div>
+</template>
