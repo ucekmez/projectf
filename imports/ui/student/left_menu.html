@@ -1,0 +1,14 @@
+<template name="StudentLeftMenu">
+  <div class="ui" style="border-right:1px dashed gray;">
+    <h3><i class="settings icon"></i> Profile Management</h3>
+    <div class="menu">
+      <a href="{{ pathFor 'student_edit_profile' }}" class="item"><i class="edit icon"></i> Edit Profile</a><br />
+    </div>
+
+    <h3><i class="user icon"></i> Course Management</h3>
+    <div class="menu">
+      <a href="{{ pathFor 'student_list_courses' }}" class="item"><i class="user list icon"></i> See Courses</a><br />
+    </div>
+
+  </div>
+</template>

@@ -32,14 +32,27 @@
 
           </div>
 
-          <div class="field">
-            <div class="ui toggle checkbox">
-              {{#if isActive}}
-                <input type="checkbox" name="is_active" id="is-active" checked>
-              {{else}}
-                <input type="checkbox" name="is_active" id="is-active">
-              {{/if}}
-              <label>Accept Enrollments?</label>
+          <div class="two fields">
+            <div class="field">
+              <div class="ui toggle checkbox">
+                {{#if isActive}}
+                  <input type="checkbox" name="is_active" id="is-active" checked>
+                {{else}}
+                  <input type="checkbox" name="is_active" id="is-active">
+                {{/if}}
+                <label>Is Visible?</label>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="ui toggle checkbox">
+                {{#if acceptStudents}}
+                  <input type="checkbox" name="accept_students" id="accept-students" checked>
+                {{else}}
+                  <input type="checkbox" name="accept_students" id="accept-students">
+                {{/if}}
+                <label>Accept Enrollments?</label>
+              </div>
             </div>
           </div>
 

@@ -64,8 +64,8 @@
         <div class="content" style="width:100%;">
           <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
           <a class="list-item-header" href=""><i class="blue edit icon"></i>
-            {{#if name }}{{ name }}{{else}}{{username}}{{/if}},
-            ({{ emails.[0].address }})</a>
+            {{#if name }}{{ name }},{{else}}{{#if username }}{{username}},{{/if}}{{/if}}
+            {{ emails.[0].address }}</a>
           <div class="sub header">
             created <b>{{ dateFromNow createdAt}}</b>
           </div>

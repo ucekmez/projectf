@@ -1,0 +1,52 @@
+<template name="StudentListCourses">
+  <h1>List of Courses</h1>
+
+  <div class="ui divider"></div>
+  <table class="ui very basic padded table">
+    <tbody>
+      {{#if subsReady 'CoursesForStudent'}}
+        {{#each courses}}
+          {{> StudentListCoursesTable}}
+        {{else}}
+          There are no courses yet!
+        {{/each}}
+      {{else}}
+        <h3 style="color:#ddd;">Please wait, your request is loading...</h3>
+      {{/if}}
+    </tbody>
+  </table>
+</template>
+
+
+<template name="StudentListCoursesTable">
+  <tr>
+    <td>
+      <h4 class="ui header">
+        <div class="content" style="width:100%;">
+          <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
+
+
+            {{#if acceptStudents }}
+              <a class="list-item-header" href="{{ pathFor 'student_single_course' courseId=shortid }}"> {{ title }} [{{ code }}]</a>
+              <div class="ui left pointing teal basic label">currently accepting students!</div>
+            {{else}}
+              <a class="list-item-header" style="color:#999;" href="{{ pathFor 'student_single_course' courseId=shortid }}"> {{ title }} [{{ code }}]</a>
+            {{/if }}
+          <div class="sub header">
+            {{#if hasPassed startDate }}
+              started <b>{{ dateFromNow startDate }}</b>,
+            {{else}}
+              starts <b>{{ dateFromNow startDate }}</b>,
+            {{/if}}
+
+            {{#if hasPassed endDate }}
+              ended <b>{{ dateFromNow endDate }}</b>,
+            {{else}}
+              ends <b>{{ dateFromNow endDate }}</b>,
+            {{/if}}
+          </div>
+        </div>
+      </h4>
+    </td>
+  </tr>
+</template>

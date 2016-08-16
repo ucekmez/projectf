@@ -1,0 +1,30 @@
+<template name="StudentLayout">
+  <div class="ui container instructor-layout">
+    {{> Template.dynamic template=nav}}
+
+    {{#unless isInRole 'student'}}
+      You are not authorized to see this page!
+    {{else}}
+      <div class="ui stackable grid">
+        <div class="four wide column">
+          {{> Template.dynamic template=leftmenu}}
+        </div>
+        <div class="twelve wide column">
+          {{> Template.dynamic template=main}}
+        </div>
+      </div>
+    {{/unless}}
+  </div>
+</template>
+
+
+<template name="StudentMainScreen">
+    <h2>Hi,
+      {{#if currentUser.profile.name }}
+        {{ currentUser.profile.name }}!
+      {{else}}
+        {{ currentUser.username }}!
+      {{/if}}
+     Welcome to your dashboard!
+   </h2>
+</template>

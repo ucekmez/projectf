@@ -13,11 +13,19 @@
       <a style="cursor:pointer;float:right;" id="login" class="nav-link"><i class="sign in icon"></i> Sign In/Up</a>
     {{/if}}
 
-    {{#if isInRole 'admin'}}
+    {{#if isInRole 'admin' }}
       <a href="{{pathFor 'admin_dashboard'}}" style="cursor:pointer;float:right;" class="nav-link">Admin Dashboard</a>
     {{else}}
-      {{#if isInRole 'instructor'}}
-        <a href="{{pathFor 'instructor_dashboard'}}" style="cursor:pointer;float:right;" class="nav-link">Instructor Dashboard</a>
+      {{#if isInRole 'courseadmin' }}
+        <a href="{{pathFor 'courseadmin_dashboard'}}" style="cursor:pointer;float:right;" class="nav-link">Course Admin Dashboard</a>
+      {{else}}
+        {{#if isInRole 'instructor' }}
+          <a href="{{pathFor 'instructor_dashboard'}}" style="cursor:pointer;float:right;" class="nav-link">Instructor Dashboard</a>
+        {{else}}
+          {{#if isInRole 'student' }}
+            <a href="{{pathFor 'student_dashboard'}}" style="cursor:pointer;float:right;" class="nav-link">Student Dashboard</a>
+          {{/if}}
+        {{/if}}
       {{/if}}
     {{/if}}
 

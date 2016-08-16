@@ -11,12 +11,13 @@ Meteor.methods({
 
     if (Roles.userIsInRole(user_id, ['instructor'])) {
       const course_id = Courses.insert({
-        code       : code,
-        title      : title,
-        startDate  : startdate,
-        endDate    : enddate,
-        instructor : user_id,
-        isActive   : false,
+        code           : code,
+        title          : title,
+        startDate      : startdate,
+        endDate        : enddate,
+        instructor     : user_id,
+        isActive       : false,
+        acceptStudents : false,
       });
 
       return Courses.findOne(course_id).shortid;
@@ -41,7 +42,7 @@ Meteor.methods({
     }
   },
 
-  instructor_edit_course(shortid, code, title, startdate, enddate, is_active) {
+  instructor_edit_course(shortid, code, title, startdate, enddate, is_active, accept_students) {
     const user_id = Meteor.userId();
 
     if (Roles.userIsInRole(user_id, ['instructor'])) {
@@ -52,6 +53,7 @@ Meteor.methods({
           startDate: startdate,
           endDate: enddate,
           isActive: is_active,
+          acceptStudents: accept_students,
         }
       });
     } else {
@@ -104,33 +106,5 @@ Meteor.methods({
       return -1;
     }
   },
-
-  /*
-    instructor_edit_profile: instructor edits his profile
-  */
-
-  instructor_edit_profile(name, age, gender, address, email) {
-    const user_id = Meteor.userId();
-
-    if (Roles.userIsInRole(user_id, ['instructor'])) {
-      const profile = {}
-      profile.name = name;
-      profile.age = age;
-      profile.gender = gender;
-      profile.address = address;
-
-      Meteor.users.update({ _id: user_id }, {
-        $set: {
-          profile: profile,
-          'emails.0.address': email.toLowerCase()
-        }
-      });
-
-      return "OK";
-    }else {
-      return -1;
-    }
-  }
-
 
 });

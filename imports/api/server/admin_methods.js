@@ -33,29 +33,4 @@ Meteor.methods({
     }else { return -1; }
   },
 
-  /*
-    admin_edit_profile: admin edits his profile
-  */
-
-  admin_edit_profile(name, age, gender, address, email) {
-    const user_id = Meteor.userId();
-
-    if (Roles.userIsInRole(user_id, ['admin'])) {
-      const profile = {}
-      profile.name = name;
-      profile.age = age;
-      profile.gender = gender;
-      profile.address = address;
-
-      Meteor.users.update({ _id: user_id }, {
-        $set: {
-          profile: profile,
-          'emails.0.address': email.toLowerCase()
-        }
-      });
-
-      return "OK";
-    }else { return -1; }
-  },
-
 });

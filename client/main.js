@@ -5,6 +5,7 @@ import '/imports/startup/client/routes/routes.js';
 import '/imports/api/config.js';
 
 import { Schedules } from '/imports/api/collections/schedules.js';
+import { Courses } from '/imports/api/collections/courses.js';
 
 
 
@@ -45,6 +46,20 @@ Template.registerHelper("hasSchedule", function(course_id){
   else { return false; }
 });
 
+Template.registerHelper("hasContract", function(course_id){
+  const course = Courses.findOne({ shortid: course_id });
+  if (course && course.contract && course.contract.length > 1) {
+    return true;
+  } else { return false; }
+});
+
+Template.registerHelper("givenBy", function(course_id){
+  const course = Courses.findOne({ shortid: course_id });
+  if (course) {
+    return Meteor.users.findOne(course.instructor);
+  }
+});
+
 
 // for Single Course Schedule view
 Template.registerHelper("scaleText", function(content){
@@ -58,6 +73,9 @@ Template.registerHelper("scaleText", function(content){
   }
 });
 
+Template.registerHelper("contract_alert_seen", function(){
+  return Session.get("contract_alert_seen");
+});
 
 
 ////////

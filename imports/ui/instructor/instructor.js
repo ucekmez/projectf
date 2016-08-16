@@ -6,7 +6,6 @@ import { Schedules } from '/imports/api/collections/schedules.js';
 
 import './layout.html';                  // InstructorLayout
 import './left_menu.html';               // InstructorLeftMenu
-import './edit_profile.html';            // InstructorEditProfile
 
 import './courses/add_new_course.html';  // InstructorAddNewCourse
 import './courses/list_courses.html';    // InstructorListCourses
@@ -81,7 +80,7 @@ instructorRoutes.route('/course/:courseId/schedule', { name: 'instructor_single_
 
 instructorRoutes.route('/profile', { name: 'instructor_edit_profile',
   action() {
-    BlazeLayout.render('InstructorLayout', {main: 'InstructorEditProfile', nav: 'MainNavigation', leftmenu: 'InstructorLeftMenu' });
+    BlazeLayout.render('InstructorLayout', {main: 'UserEditProfile', nav: 'MainNavigation', leftmenu: 'InstructorLeftMenu' });
     NProgress.done();
   }
 });
@@ -277,7 +276,8 @@ Template.InstructorEditCourse.events({
           title_edit       : 'empty',
           startdate_edit   : 'empty',
           enddate_edit     : 'empty',
-          is_active        : 'empty'
+          is_active        : 'empty',
+          accept_students  : 'empty',
         }
       });
 
@@ -287,8 +287,9 @@ Template.InstructorEditCourse.events({
       const startdate_edit = $('#startdate-edit').val();
       const enddate_edit   = $('#enddate-edit').val();
       const is_active      = $('#is-active').is(':checked');
+      const accept_students = $('#accept-students').is(':checked');
 
-      Meteor.call('instructor_edit_course', FlowRouter.getParam('courseId'), code_edit, title_edit, startdate_edit, enddate_edit, is_active, function (err, data) {
+      Meteor.call('instructor_edit_course', FlowRouter.getParam('courseId'), code_edit, title_edit, startdate_edit, enddate_edit, is_active, accept_students, function (err, data) {
         if (err) {
           toastr.error(err.reason);
         }else {
@@ -402,43 +403,5 @@ Template.EditSingleWeek.helpers({
         return false; // Stop Froala Editor from POSTing to the Save URL
       },
     };
-  }
-});
-
-Template.InstructorEditProfile.onRendered(() => {
-  $('#gender-edit').dropdown('set selected', Meteor.user().profile.gender);
-});
-
-Template.InstructorEditProfile.events({
-  'click #submit-button'(event, instance) {
-    $('.ui.form')
-      .form({
-        fields: {
-          name_edit       : 'empty',
-          age_edit        : 'empty',
-          gender_edit     : 'empty',
-          address_edit    : 'empty',
-          email_edit      : 'empty',
-        }
-      });
-
-    if ($('.ui.form').form('is valid')) {
-      const name_edit     = $('#name-edit').val();
-      const age_edit      = $('#age-edit').val();
-      const gender_edit   = $('#gender-edit').val();
-      const address_edit  = $('#address-edit').val();
-      const email_edit    = $('#email-edit').val();
-
-      Meteor.call('instructor_edit_profile', name_edit, age_edit, gender_edit, address_edit, email_edit, function (err, data) {
-        if (err) {
-          toastr.error(err.reason);
-        }else {
-          toastr.success('Profile has been updated!');
-          FlowRouter.go('instructor_dashboard');
-        }
-      });
-    }else {
-      toastr.error('Please correct the errors!');
-    }
   }
 });

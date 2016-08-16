@@ -1,0 +1,33 @@
+<template name="CourseAdminEditContract">
+  <h1>Edit Course Contract for <i>{{ course.title }} [{{ course.code }}]</i></h1>
+  <div class="ui divider"></div>
+
+
+  {{#unless contract_alert_seen }}
+    <div class="ui info message">
+      <i class="close icon"></i>
+      <div class="header">
+        Attention! Be aware that students are required to accept these rules in order to enroll!
+      </div>
+    </div>
+  {{/unless}}
+
+  {{#with course}}
+    <div class="twelve wide column edit-contract">
+      <!-- form div starts-->
+      <div class="ui">
+        <div class="ui form">
+
+          <div class="field">
+            {{> froalaReactive getFEContext disableRightClick=true}}
+          </div>
+
+          <div class="actions">
+            <div class="ui button primary submit fluid big" id="ok-button">OK</div>
+          </div>
+        </div>
+      </div>
+      <!-- /form div ends-->
+    </div>
+  {{/with}}
+</template>

@@ -52,6 +52,8 @@ Meteor.startup(() => {
 AccountsTemplates.configure({
   postSignUpHook: function(userId, info) {
     Roles.addUsersToRoles(userId, ['student']);
+    profile = {'name': "", 'gender': "", 'age': "", 'address': "", 'shortid': shortid.generate()};
+    Meteor.users.update({ _id: userId}, {$set: { profile: profile }});
   },
 });
 
@@ -73,6 +75,10 @@ Meteor.publish("UsersForAdmin", function(role){
   }
 });
 
+
+////////////////
+
+
 Meteor.publish("CoursesForInstructor", function(){
   if (Roles.userIsInRole(this.userId, ['instructor'])) {
     return Courses.find({instructor: this.userId});
@@ -93,8 +99,61 @@ Meteor.publish("SchedulesIDsForInstructor", function(){
   }
 });
 
-Meteor.publish("SingleScheduleForInstructor", function(course_id){
+Meteor.publish("SingleScheduleForInstructor", function(course_shortid){
   if (Roles.userIsInRole(this.userId, ['instructor'])) {
-    return Schedules.find({course: course_id});
+    return Schedules.find({course: course_shortid});
+  }
+});
+
+
+////////////////
+
+Meteor.publish("CoursesForStudent", function(){
+  if (Roles.userIsInRole(this.userId, ['student'])) {
+    return Courses.find({ isActive: true }, {
+      fields: {'code':1, 'title':1, 'instructor':1, 'description':1, 'startDate':1, 'endDate':1, 'shortid':1, 'acceptStudents':1 }
+    });
+  }
+});
+
+
+Meteor.publish("SingleCourseForStudent", function(course_shortid){
+  if (Roles.userIsInRole(this.userId, ['student'])) {
+    return Courses.find({ shortid: course_shortid }, {
+      fields: {'code':1, 'title':1, 'instructor':1, 'description':1, 'startDate':1, 'endDate':1, 'shortid':1, 'acceptStudents':1 }
+    });
+  }
+});
+
+
+Meteor.publish("SingleCourseScheduleForStudent", function(course_shortid){
+  if (Roles.userIsInRole(this.userId, ['student'])) {
+    return Schedules.find({course: course_shortid});
+  }
+});
+
+
+
+///////////////
+
+
+
+Meteor.publish("CoursesForCourseAdmin", function(){
+  if (Roles.userIsInRole(this.userId, ['courseadmin'])) {
+    return Courses.find();
+  }
+});
+
+Meteor.publish("InstructorsForCourseAdmin", function(){
+  if (Roles.userIsInRole(this.userId, ['courseadmin'])) {
+    return Meteor.users.find({roles: 'instructor'}, {
+      fields: {'username':1, 'emails':1, 'profile.name': 1}
+    });
+  }
+});
+
+Meteor.publish("SingleCourseForCourseAdmin", function(course_shortid){
+  if (Roles.userIsInRole(this.userId, ['courseadmin'])) {
+    return Courses.find({ shortid: course_shortid});
   }
 });

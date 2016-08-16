@@ -1,0 +1,72 @@
+<template name="CourseAdminListCourses">
+  <h1>List of Courses</h1>
+
+  <div class="ui divider"></div>
+  <table class="ui very basic padded table">
+    <tbody>
+      {{#if subsReady 'CoursesForCourseAdmin'}}
+        {{#each courses}}
+          {{> CourseAdminListCoursesTable}}
+        {{else}}
+          There are no courses yet!
+        {{/each}}
+      {{else}}
+        <h3 style="color:#ddd;">Please wait, your request is loading...</h3>
+      {{/if}}
+    </tbody>
+  </table>
+</template>
+
+
+<template name="CourseAdminListCoursesTable">
+  <tr>
+    <td>
+      <h4 class="ui header">
+        <div class="content" style="width:100%;">
+          <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
+          {{ title }} [{{ code }}]
+
+          {{#if isActive }}
+            <div class="ui left pointing teal basic label">visible!</div>
+          {{else}}
+            <div class="ui left pointing red basic label">hidden!</div>
+          {{/if }}
+
+          {{#if acceptStudents }}
+            <div class="ui left pointing teal basic label">Enrollments accepted!</div>
+          {{else}}
+            <div class="ui left pointing red basic label">Enrollments rejected!</div>
+          {{/if }}
+
+          <div class="sub header">
+            {{#if hasPassed startDate }}
+              started <b>{{ dateFromNow startDate }}</b>,
+            {{else}}
+              starts <b>{{ dateFromNow startDate }}</b>,
+            {{/if}}
+
+            {{#if hasPassed endDate }}
+              ended <b>{{ dateFromNow endDate }}</b>,
+            {{else}}
+              ends <b>{{ dateFromNow endDate }}</b>,
+            {{/if}}
+
+            given by <b>
+              {{#with givenBy shortid }}
+                {{#if profile.name }}{{ profile.name}}{{else}}{{emails.[0].address}}{{/if}}
+              {{/with}}</b>
+          </div>
+        </div>
+      </h4>
+    </td>
+    <td class="single line right aligned">
+      {{#if hasContract shortid }}
+        <a href="{{ pathFor 'courseadmin_edit_contract' courseId=shortid }}" data-tooltip="Edit Course Contract" data-position="left center"   data-inverted=""><i class="huge green ordered list icon listing"></i></a>
+      {{else}}
+        <a href="{{ pathFor 'courseadmin_edit_contract' courseId=shortid }}" data-tooltip="Add Contract to this Course" data-position="left center"   data-inverted=""><i class="huge orange ordered list icon listing"></i></a>
+      {{/if}}
+
+        <a href="#" data-tooltip="Manage Students" data-position="right center"   data-inverted=""><i class="huge teal users icon listing"></i></a>
+    </td>
+  </tr>
+</template>

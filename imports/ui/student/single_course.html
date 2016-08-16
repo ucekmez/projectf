@@ -1,0 +1,54 @@
+<template name="StudentSingleCourse">
+  {{#with course }}
+  <h1>{{ title }} [{{ code }}]</h1>
+
+  <div class="ui divider"></div>
+
+  <div class="sub header">
+    {{#if hasPassed startDate }}
+      started <b>{{ dateFromNow startDate }}</b>,
+    {{else}}
+      starts <b>{{ dateFromNow startDate }}</b>,
+    {{/if}}
+
+    {{#if hasPassed endDate }}
+      ended <b>{{ dateFromNow endDate }}</b>,
+    {{else}}
+      ends <b>{{ dateFromNow endDate }}</b>,
+    {{/if}}
+
+    {{#if acceptStudents }}
+      <div class="ui left pointing teal basic label">currently accepting students!</div>
+    {{/if}}
+
+  </div>
+
+  <div class="ui divider"></div>
+
+  {{{ description }}}
+
+  {{#if haveStudentAlreadyEnrolled }}
+    <div class="actions">
+      <div class="ui button positive submit fluid big" id="course-details">Open Course Schedule!</div>
+    </div>
+  {{else}}
+    {{#if haveStudentAlreadyRequested }}
+      <div class="actions">
+        <div class="ui button orange submit fluid big disabled">Pending Request!</div>
+      </div>
+    {{else}}
+      {{#if acceptStudents }}
+        <div class="actions">
+          <div class="ui button primary submit fluid big" id="enroll-button">Enroll Now!</div>
+        </div>
+      {{else}}
+        <div class="actions">
+          <div class="ui button primary submit fluid big disabled">Enrollments are closed!</div>
+        </div>
+      {{/if}}
+    {{/if}}
+  {{/if}}
+
+
+  {{/with}}
+</template>

@@ -8,6 +8,8 @@
 import '../../../ui/landing/landing.js'; // landing page routes
 import '../../../ui/admin/admin.js'; // admin routes
 import '../../../ui/instructor/instructor.js'; // instructor routes
+import '../../../ui/student/student.js'; // student routes
+import '../../../ui/courseadmin/courseadmin.js'; // courseadmin routes
 
 
 FlowRouter.triggers.enter([() => {

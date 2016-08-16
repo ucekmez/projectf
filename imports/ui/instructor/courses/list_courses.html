@@ -28,9 +28,15 @@
             {{ title }} [{{ code }}]
 
             {{#if isActive }}
-              <div class="ui left pointing teal basic label">active!</div>
+              <div class="ui left pointing teal basic label">visible!</div>
             {{else}}
-              <div class="ui left pointing red basic label">passive!</div>
+              <div class="ui left pointing red basic label">hidden!</div>
+            {{/if }}
+
+            {{#if acceptStudents }}
+              <div class="ui left pointing teal basic label">Enrollments accepted!</div>
+            {{else}}
+              <div class="ui left pointing red basic label">Enrollments rejected!</div>
             {{/if }}
           </a>
           <div class="sub header">
