@@ -1,0 +1,27 @@
+<template name="CourseAdminListCourseStudents">
+  <h1>List of Students for {{ course.title }} [{{ course.code }}]</h1>
+
+  <div class="ui divider"></div>
+  <table class="ui very basic padded table">
+    <tbody>
+      <tr>
+        <td>
+          <h4 class="ui header">
+            <div class="content" style="width:100%;">
+              <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
+              <a class="list-item-header" href=""><i class="blue edit icon"></i>
+                {{#if name }}{{ name }},{{else}}{{#if username }}{{username}},{{/if}}{{/if}}
+                {{ emails.[0].address }}</a>
+              <div class="sub header">
+                ..
+              </div>
+            </div>
+          </h4>
+        </td>
+        <td class="single line right aligned">
+          <!-- <a id="remove-user" style="cursor:pointer;" data-tooltip="Remove" data-position="right center" data-inverted=""><i class="huge red remove icon listing"></i></a> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</template>

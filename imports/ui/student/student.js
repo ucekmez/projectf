@@ -88,21 +88,26 @@ Template.StudentSingleCourse.helpers({
   course() {
     return Courses.findOne({ shortid : FlowRouter.getParam('courseId')});
   },
-  haveStudentAlreadyEnrolled() {
-
+  status() {
+    return ReactiveMethod.call('student_check_status', FlowRouter.getParam('courseId'), function(err, data) {
+      if (err) {
+        console.log(err.reason);
+      }else {
+        return data;
+      }
+    });
   },
-  haveStudentAlreadyRequested() {
-
-  }
 });
 
 Template.StudentSingleCourse.events({
   'click #enroll-button'(event, instance) {
+    $('#enroll-button').addClass('disabled');
     Meteor.call('student_send_enroll_request', Meteor.userId(), FlowRouter.getParam('courseId'), function(err, data) {
       if (err) {
         toastr.error(err.reason);
       }else {
-        toastr.info("Your request has been sent!");
+        if (data == "OK") { toastr.info("Your request has been sent!"); }
+        if (data == "ALREADY") { toastr.warning("Your request is being processed! Please wait"); }
       }
     })
   }

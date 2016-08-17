@@ -8,7 +8,7 @@ import './layout.html';                  // StudentLayout
 import './left_menu.html';               // StudentLeftMenu
 import './list_courses.html';            // CourseAdminListCourses
 import './edit_contract.html';           // CourseAdminEditContract
-
+import './list_course_students.html';    // CourseAdminListCourseStudents
 import '../landing/edit_profile.html';   // UserEditProfile
 
 
@@ -55,12 +55,27 @@ courseadminRoutes.route('/courses', { name: 'courseadmin_list_courses',
 courseadminRoutes.route('/courses/:courseId/contract', { name: 'courseadmin_edit_contract',
   subscriptions: function(params, queryParams) {
     if(Meteor.isClient) {
-      this.register('SingleCourseForCourseAdmin', Meteor.subscribe("SingleCourseForCourseAdmin"));
+      this.register('SingleCourseForCourseAdmin', Meteor.subscribe("SingleCourseForCourseAdmin", this.courseId));
     }
   },
   action() {
     BlazeLayout.render('CourseAdminLayout', {main: 'CourseAdminEditContract', nav: 'MainNavigation', leftmenu: 'CourseAdminLeftMenu' });
     FlowRouter.subsReady("SingleCourseForCourseAdmin", function() {
+      NProgress.done();
+    });
+  }
+});
+
+courseadminRoutes.route('/courses/:courseId/students', { name: 'courseadmin_list_course_students',
+  subscriptions: function(params, queryParams) {
+    if(Meteor.isClient) {
+      this.register('SingleCourseForCourseAdmin', Meteor.subscribe("SingleCourseForCourseAdmin", this.courseId));
+      this.register('SingleCourseStudentsForCourseAdmin', Meteor.subscribe("SingleCourseStudentsForCourseAdmin", this.courseId));
+    }
+  },
+  action() {
+    BlazeLayout.render('CourseAdminLayout', {main: 'CourseAdminListCourseStudents', nav: 'MainNavigation', leftmenu: 'CourseAdminLeftMenu' });
+    FlowRouter.subsReady("SingleCourseStudentsForCourseAdmin", function() {
       NProgress.done();
     });
   }
