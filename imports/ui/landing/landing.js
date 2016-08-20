@@ -49,7 +49,7 @@ Template.UserEditProfile.onRendered(() => {
 });
 
 Template.UserEditProfile.events({
-  'click #submit-button'(event, instance) {
+  'click #profile-submit-button'(event, instance) {
     $('.ui.form')
       .form({
         fields: {
@@ -68,16 +68,20 @@ Template.UserEditProfile.events({
       const address_edit  = $('#address-edit').val();
       const email_edit    = $('#email-edit').val();
 
-      Meteor.call('user_edit_profile', name_edit, age_edit, gender_edit, address_edit, email_edit, function (err, data) {
-        if (err) { toastr.error(err.reason); }
-        else {
-          toastr.success('Profile has been updated!');
-          Meteor.call('user_get_dashboard', function(err, data) {
-            if (err) { toastr.error(err.reason); }
-            else { FlowRouter.go(data); }
-          });
-        }
-      });
+      if (name_edit && age_edit && gender_edit && address_edit && email_edit) {
+        Meteor.call('user_edit_profile', name_edit, age_edit, gender_edit, address_edit, email_edit, function (err, data) {
+          if (err) { toastr.error(err.reason); }
+          else {
+            toastr.success('Profile has been updated!');
+            Meteor.call('user_get_dashboard', function(err, data) {
+              if (err) { toastr.error(err.reason); }
+              else { FlowRouter.go(data); }
+            });
+          }
+        });
+      }else {
+        return false;
+      }
     }else {
       toastr.error('Please correct the errors!');
     }

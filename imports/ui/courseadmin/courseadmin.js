@@ -151,33 +151,6 @@ Template.CourseAdminListCourseStudents.helpers({
   course() {
     return Courses.findOne({ shortid : FlowRouter.getParam('courseId')});
   },
-  pending() {
-    return ReactiveMethod.call('courseadmin_fetch_pending', FlowRouter.getParam('courseId'), function(err, data) {
-      if (err) {
-        console.log(err.reason);
-      }else {
-        return data;
-      }
-    });
-  },
-  students() {
-    return ReactiveMethod.call('courseadmin_fetch_students', FlowRouter.getParam('courseId'), function(err, data) {
-      if (err) {
-        console.log(err.reason);
-      }else {
-        return data;
-      }
-    });
-  },
-  suspended() {
-    return ReactiveMethod.call('courseadmin_fetch_suspended', FlowRouter.getParam('courseId'), function(err, data) {
-      if (err) {
-        console.log(err.reason);
-      }else {
-        return data;
-      }
-    });
-  },
 });
 
 Template.CourseAdminListCourseStudents.events({
@@ -187,6 +160,24 @@ Template.CourseAdminListCourseStudents.events({
         toastr.error(err.data);
       }else {
         toastr.success("Student has been approved!");
+      }
+    });
+  },
+  'click #suspend-student-registration'(event, instance) {
+    Meteor.call('courseadmin_suspend_registration', this._id, FlowRouter.getParam('courseId'),  function(err, data) {
+      if (err) {
+        toastr.error(err.data);
+      }else {
+        toastr.success("Registration has been suspended!");
+      }
+    });
+  },
+  'click #accept-suspended-student'(event, instance) {
+    Meteor.call('courseadmin_accept_suspended_student', this._id, FlowRouter.getParam('courseId'),  function(err, data) {
+      if (err) {
+        toastr.error(err.data);
+      }else {
+        toastr.success("Registration has been suspended!");
       }
     });
   }

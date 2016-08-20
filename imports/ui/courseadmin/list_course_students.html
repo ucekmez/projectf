@@ -8,16 +8,17 @@
   <table class="ui very basic padded table">
     <tbody>
       <tr>
-        {{#each pending }}
+        {{#each course.pending }}
           <td>
             <h4 class="ui header">
               <div class="content" style="width:100%;">
-                <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
-                    {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
-                    {{ emails.[0].address }}
-                    <a id="accept-pending-student" data-tooltip="Accept student!" data-position="top center" data-inverted=""><i class="ui big green checkmark icon"></i></a>
+                  {{#with get_student_profile _id }}
+                      {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
+                      {{ emails.[0].address }}
+                  {{/with}}
+                  <a style="cursor:pointer;" id="accept-pending-student" data-tooltip="Accept student!" data-position="top center" data-inverted=""><i class="ui big green checkmark icon"></i></a>
                 <div class="sub header">
-
+                  requested {{ dateFromNow date }}
                 </div>
               </div>
             </h4>
@@ -37,16 +38,17 @@
   <table class="ui very basic padded table">
     <tbody>
       <tr>
-        {{#each students }}
+        {{#each course.students }}
           <td>
             <h4 class="ui header">
               <div class="content" style="width:100%;">
-                <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
-                  {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
-                  {{ emails.[0].address }}
-                  <a id="suspend-student-registration" data-tooltip="Suspend registration!" data-position="top center" data-inverted=""><i class="ui big red remove icon"></i></a>
+                  {{#with get_student_profile _id }}
+                      {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
+                      {{ emails.[0].address }}
+                  {{/with}}
+                  <a style="cursor:pointer;" id="suspend-student-registration" data-tooltip="Suspend registration!" data-position="top center" data-inverted=""><i class="ui big red pause icon"></i></a>
                 <div class="sub header">
-
+                  accepted {{ dateFromNow date }}
                 </div>
               </div>
             </h4>
@@ -66,15 +68,17 @@
   <table class="ui very basic padded table">
     <tbody>
       <tr>
-        {{#each suspended }}
+        {{#each course.suspended }}
           <td>
             <h4 class="ui header">
               <div class="content" style="width:100%;">
-                <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
-                  {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
-                  {{ emails.[0].address }}
+                  {{#with get_student_profile _id }}
+                      {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
+                      {{ emails.[0].address }}
+                  {{/with}}
+                  <a style="cursor:pointer;" id="accept-suspended-student" data-tooltip="Accept again!" data-position="top center" data-inverted=""><i class="ui big teal checkmark icon"></i></a>
                 <div class="sub header">
-
+                  suspended {{ dateFromNow date }}
                 </div>
               </div>
             </h4>

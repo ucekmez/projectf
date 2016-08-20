@@ -145,10 +145,10 @@ Template.AdminListUsersTable.events({
 Template.AdminListCourseAdmins.helpers({
   users() {
     return Meteor.users.find({ roles: 'courseadmin'}, {sort: { createdAt: -1 } })
-    .map(function(document, index) {
-      document.index = index + 1;
-      return document;
-    });
+      .map(function(document, index) {
+        document.index = index + 1;
+        return document;
+      });
   }
 });
 
@@ -157,10 +157,10 @@ Template.AdminListCourseAdmins.helpers({
 Template.AdminListInstructors.helpers({
   users() {
     return Meteor.users.find({ roles: 'instructor'})
-    .map(function(document, index) {
-      document.index = index + 1;
-      return document;
-    });
+      .map(function(document, index) {
+        document.index = index + 1;
+        return document;
+      });
   }
 });
 
@@ -171,9 +171,9 @@ Template.AdminListInstructors.helpers({
 Template.AdminListStudents.helpers({
   users() {
     return Meteor.users.find({ roles: 'student'})
-    .map(function(document, index) {
-      document.index = index + 1;
-      return document;
-    });
+      .map(function(document, index) {
+        document.index = index + 1;
+        return document;
+      });
   }
 });
