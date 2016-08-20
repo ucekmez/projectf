@@ -121,6 +121,11 @@ Template.InstructorLeftMenu.events({
     $('.modal.add-new-course')
       .modal({
         //blurring: true,
+        onHide() {
+          $('.ui.form').form('reset');
+          $('.ui.form').form('clear');
+          Session.set("success", false);
+        },
         onDeny() {
           $('.ui.form').form('reset');
           $('.ui.form').form('clear');
@@ -182,13 +187,13 @@ Template.InstructorListCourses.helpers({
 });
 
 Template.InstructorListCourses.events({
-  'click #remove-course'(event, instance) {
+  'click #instructor-remove-course'(event, instance) {
     Meteor.call('instructor_remove_course', this._id, function(err, data) {
       if (err) { toastr.error(err.reason); }
       else { toastr.success('Course has been deleted!'); }
     });
   },
-  'click #add-new-schedule'(event, instance) {
+  'click #instructor-add-new-schedule'(event, instance) {
     Meteor.call('instructor_add_new_schedule', this.shortid, function(err, data) {
       if (err) { toastr.error(err.reason); }
       else {
@@ -197,7 +202,7 @@ Template.InstructorListCourses.events({
       }
     });
   },
-  'click #edit-schedule'(event, instance) {
+  'click #instructor-edit-schedule'(event, instance) {
     FlowRouter.go('instructor_single_course_schedule', { courseId: this.shortid }); // to the newly created schedule page for editing purposes
   }
 });
@@ -268,7 +273,7 @@ Template.InstructorEditCourse.helpers({
 });
 
 Template.InstructorEditCourse.events({
-  'click #submit-button'(event, instance) {
+  'click #edit-course-submit-button'(event, instance) {
     $('.ui.form')
       .form({
         fields: {

@@ -51,7 +51,11 @@ Courses.allow({
     // burayi yalnizca oturum acan VE bu dokumani olusturan VEYA courseadmin ise sadece contracti degistirmek isteyene aciyoruz
     if (userId &&
         (doc.instructor === userId ||
-          (Roles.userIsInRole(userId, ['courseadmin']) && _.difference(fields, ['contract', 'updatedAt']).length == 0 ))) {
+          (Roles.userIsInRole(userId, ['courseadmin']) &&
+            (_.difference(fields, ['contract',  'updatedAt']).length == 0 ||
+             _.difference(fields, ['pending',   'updatedAt']).length == 0 ||
+             _.difference(fields, ['students',  'updatedAt']).length == 0 ||
+             _.difference(fields, ['suspended', 'updatedAt']).length == 0 )))) {
       return true;
     }
   },

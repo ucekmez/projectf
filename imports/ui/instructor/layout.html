@@ -15,6 +15,10 @@
       </div>
     {{/unless}}
   </div>
+
+  {{#if isInRole 'instructor'}}
+    {{> InstructorAddNewCourse }}
+  {{/if}}
 </template>
 
 

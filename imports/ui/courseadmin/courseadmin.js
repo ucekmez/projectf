@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { Tracker } from 'meteor/tracker';
 
 import { Courses } from '/imports/api/collections/courses.js';
 import { Schedules } from '/imports/api/collections/schedules.js';
@@ -55,7 +56,7 @@ courseadminRoutes.route('/courses', { name: 'courseadmin_list_courses',
 courseadminRoutes.route('/courses/:courseId/contract', { name: 'courseadmin_edit_contract',
   subscriptions: function(params, queryParams) {
     if(Meteor.isClient) {
-      this.register('SingleCourseForCourseAdmin', Meteor.subscribe("SingleCourseForCourseAdmin", this.courseId));
+      this.register('SingleCourseForCourseAdmin', Meteor.subscribe("SingleCourseForCourseAdmin", params.courseId));
     }
   },
   action() {
@@ -69,13 +70,14 @@ courseadminRoutes.route('/courses/:courseId/contract', { name: 'courseadmin_edit
 courseadminRoutes.route('/courses/:courseId/students', { name: 'courseadmin_list_course_students',
   subscriptions: function(params, queryParams) {
     if(Meteor.isClient) {
-      this.register('SingleCourseForCourseAdmin', Meteor.subscribe("SingleCourseForCourseAdmin", this.courseId));
-      this.register('SingleCourseStudentsForCourseAdmin', Meteor.subscribe("SingleCourseStudentsForCourseAdmin", this.courseId));
+      this.register('SingleCourseForCourseAdmin', Meteor.subscribe("SingleCourseForCourseAdmin", params.courseId));
+      this.register('StudentsForCourseAdmin', Meteor.subscribe("StudentsForCourseAdmin"));
+
     }
   },
   action() {
     BlazeLayout.render('CourseAdminLayout', {main: 'CourseAdminListCourseStudents', nav: 'MainNavigation', leftmenu: 'CourseAdminLeftMenu' });
-    FlowRouter.subsReady("SingleCourseStudentsForCourseAdmin", function() {
+    FlowRouter.subsReady("StudentsForCourseAdmin", function() {
       NProgress.done();
     });
   }
@@ -100,7 +102,7 @@ Template.CourseAdminEditContract.onRendered(() => {
 });
 
 Template.CourseAdminEditContract.events({
-  "click #ok-button"(event, instance){
+  "click #edit-contract-ok-button"(event, instance){
     FlowRouter.go('courseadmin_list_courses');
   },
   "click .message .close.icon"(event, instance) {
@@ -141,5 +143,51 @@ Template.CourseAdminEditContract.helpers({
         return false; // Stop Froala Editor from POSTing to the Save URL
       },
     };
+  }
+});
+
+
+Template.CourseAdminListCourseStudents.helpers({
+  course() {
+    return Courses.findOne({ shortid : FlowRouter.getParam('courseId')});
+  },
+  pending() {
+    return ReactiveMethod.call('courseadmin_fetch_pending', FlowRouter.getParam('courseId'), function(err, data) {
+      if (err) {
+        console.log(err.reason);
+      }else {
+        return data;
+      }
+    });
+  },
+  students() {
+    return ReactiveMethod.call('courseadmin_fetch_students', FlowRouter.getParam('courseId'), function(err, data) {
+      if (err) {
+        console.log(err.reason);
+      }else {
+        return data;
+      }
+    });
+  },
+  suspended() {
+    return ReactiveMethod.call('courseadmin_fetch_suspended', FlowRouter.getParam('courseId'), function(err, data) {
+      if (err) {
+        console.log(err.reason);
+      }else {
+        return data;
+      }
+    });
+  },
+});
+
+Template.CourseAdminListCourseStudents.events({
+  'click #accept-pending-student'(event, instance) {
+    Meteor.call('courseadmin_accept_pending_student', this._id, FlowRouter.getParam('courseId'),  function(err, data) {
+      if (err) {
+        toastr.error(err.data);
+      }else {
+        toastr.success("Student has been approved!");
+      }
+    });
   }
 });

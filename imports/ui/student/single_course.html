@@ -28,9 +28,21 @@
   {{{ description }}}
 
   {{#if equals status "STUDENT" }}
-    <div class="actions">
-      <div class="ui button positive submit fluid big" id="course-details">Open Course Schedule!</div>
-    </div>
+
+    {{#each schedule }}
+      <div class="ui fluid card">
+        <div class="content">
+          {{{ content }}}
+        </div>
+      </div>
+    {{/each}}
+
+
+
+
+
+
+
   {{else}}
     {{#if equals status "PENDING" }}
       <div class="actions">
@@ -46,6 +58,7 @@
           <div class="actions">
             <div class="ui button primary submit fluid big" id="enroll-button">Enroll Now!</div>
           </div>
+          {{> StudentAcceptContract}}
         {{else}}
           <div class="actions">
             <div class="ui button primary submit fluid big disabled">Enrollments are closed!</div>
@@ -57,4 +70,22 @@
 
 
   {{/with}}
+</template>
+
+
+
+
+<template name="StudentAcceptContract">
+  <div class="ui test long modal student-accept-contract">
+    <div class="header">
+      Course Contract for {{ title }} [{{ code }}]
+    </div>
+    <div class="content">
+      {{{ contract }}}
+    </div>
+    <div class="actions">
+      <div class="ui button cancel contract-button" id="contract-dismiss-button">DISMISS</div>
+      <div class="ui button positive primary submit contract-button" id="contract-submit-button">ACCEPT</div>
+    </div>
+  </div>
 </template>

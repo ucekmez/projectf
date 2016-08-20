@@ -4,7 +4,6 @@ import '/imports/startup/server/importtoserver.js';
 
 import { Accounts } from 'meteor/accounts-base';
 
-import ghost from 'ghost';
 import shortid from 'shortid';
 
 import { Courses } from '/imports/api/collections/courses.js';
@@ -13,12 +12,6 @@ import { Schedules } from '/imports/api/collections/schedules.js';
 Sortable.collections = ['schedules'];
 
 Meteor.startup(() => {
-  ghost().then(function (ghostServer) {
-    const config = ghostServer.config;
-    // modify theme and config ...
-    ghostServer.start();
-  });
-
 
   if (Meteor.users.find().count() === 0) {
     const users = [
@@ -120,7 +113,7 @@ Meteor.publish("CoursesForStudent", function(){
 Meteor.publish("SingleCourseForStudent", function(course_shortid){
   if (Roles.userIsInRole(this.userId, ['student'])) {
     return Courses.find({ shortid: course_shortid }, {
-      fields: {'code':1, 'title':1, 'instructor':1, 'description':1, 'startDate':1, 'endDate':1, 'shortid':1, 'acceptStudents':1 }
+      fields: {'code':1, 'title':1, 'instructor':1, 'description':1, 'startDate':1, 'endDate':1, 'shortid':1, 'acceptStudents':1, 'contract':1 }
     });
   }
 });
@@ -155,5 +148,13 @@ Meteor.publish("InstructorsForCourseAdmin", function(){
 Meteor.publish("SingleCourseForCourseAdmin", function(course_shortid){
   if (Roles.userIsInRole(this.userId, ['courseadmin'])) {
     return Courses.find({ shortid: course_shortid});
+  }
+});
+
+Meteor.publish("StudentsForCourseAdmin", function(){
+  if (Roles.userIsInRole(this.userId, ['courseadmin'])) {
+    return Meteor.users.find({roles: 'student'}, {
+      fields: {'username':1, 'emails':1, 'profile': 1}
+    });
   }
 });

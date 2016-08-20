@@ -88,6 +88,9 @@ Template.StudentSingleCourse.helpers({
   course() {
     return Courses.findOne({ shortid : FlowRouter.getParam('courseId')});
   },
+  schedule() {
+    return Schedules.find({ course : FlowRouter.getParam('courseId')}, { sort: { order: 1 }});
+  },
   status() {
     return ReactiveMethod.call('student_check_status', FlowRouter.getParam('courseId'), function(err, data) {
       if (err) {
@@ -101,14 +104,22 @@ Template.StudentSingleCourse.helpers({
 
 Template.StudentSingleCourse.events({
   'click #enroll-button'(event, instance) {
-    $('#enroll-button').addClass('disabled');
-    Meteor.call('student_send_enroll_request', Meteor.userId(), FlowRouter.getParam('courseId'), function(err, data) {
-      if (err) {
-        toastr.error(err.reason);
-      }else {
-        if (data == "OK") { toastr.info("Your request has been sent!"); }
-        if (data == "ALREADY") { toastr.warning("Your request is being processed! Please wait"); }
-      }
-    })
+    $('.modal.student-accept-contract')
+      .modal({
+        blurring: true,
+        observeChanges: true,
+        onApprove() {
+          $('#enroll-button').addClass('disabled');
+          Meteor.call('student_send_enroll_request', FlowRouter.getParam('courseId'), function(err, data) {
+            if (err) {
+              toastr.error(err.reason);
+            }else {
+              if (data == "OK") { toastr.info("Your request has been sent!"); }
+              if (data == "ALREADY") { toastr.warning("Your request is being processed! Please wait"); }
+            }
+          });
+        },
+      })
+      .modal('show');
   }
 });

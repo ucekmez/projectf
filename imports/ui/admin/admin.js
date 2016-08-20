@@ -76,7 +76,7 @@ adminRoutes.route('/profile', { name: 'admin_edit_profile',
 
 
 Template.AdminLeftMenu.events({
-  'click #admin-add-new-user'(event, instance) {
+  'click #admin-add-new-user-left-menu'(event, instance) {
     $('.modal.add-new-user')
       .modal({
         //blurring: true,

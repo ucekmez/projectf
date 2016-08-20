@@ -1,5 +1,4 @@
 import { Courses } from '/imports/api/collections/courses.js';
-import { Schedules } from '/imports/api/collections/schedules.js';
 
 Meteor.methods({
 
@@ -8,7 +7,7 @@ Meteor.methods({
 
     if (Roles.userIsInRole(user_id, ['student'])) {
       let result = "ALREADY";
-      Meteor.call('student_check_enroll_request', course_shortid, function(err, data) {
+      Meteor.call('student_check_status', course_shortid, function(err, data) {
         if (!err) {
           if (data == "NOTFOUND") {
             Courses.update({ shortid: course_shortid }, {

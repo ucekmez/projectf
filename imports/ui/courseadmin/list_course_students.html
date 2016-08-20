@@ -2,25 +2,89 @@
   <h1>List of Students for {{ course.title }} [{{ course.code }}]</h1>
 
   <div class="ui divider"></div>
+
+  <h3>Pending Registrations</h3>
+  <div class="ui divider"></div>
   <table class="ui very basic padded table">
     <tbody>
       <tr>
-        <td>
-          <h4 class="ui header">
-            <div class="content" style="width:100%;">
-              <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
-              <a class="list-item-header" href=""><i class="blue edit icon"></i>
-                {{#if name }}{{ name }},{{else}}{{#if username }}{{username}},{{/if}}{{/if}}
-                {{ emails.[0].address }}</a>
-              <div class="sub header">
-                ..
+        {{#each pending }}
+          <td>
+            <h4 class="ui header">
+              <div class="content" style="width:100%;">
+                <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
+                    {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
+                    {{ emails.[0].address }}
+                    <a id="accept-pending-student" data-tooltip="Accept student!" data-position="top center" data-inverted=""><i class="ui big green checkmark icon"></i></a>
+                <div class="sub header">
+
+                </div>
               </div>
-            </div>
-          </h4>
-        </td>
-        <td class="single line right aligned">
-          <!-- <a id="remove-user" style="cursor:pointer;" data-tooltip="Remove" data-position="right center" data-inverted=""><i class="huge red remove icon listing"></i></a> -->
-        </td>
+            </h4>
+          </td>
+          <td class="single line right aligned">
+            <!-- <a id="remove-user" style="cursor:pointer;" data-tooltip="Remove" data-position="right center" data-inverted=""><i class="huge red remove icon listing"></i></a> -->
+          </td>
+        {{else}}
+          There are no pending registrations!
+        {{/each}}
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Enrolled Students</h3>
+  <div class="ui divider"></div>
+  <table class="ui very basic padded table">
+    <tbody>
+      <tr>
+        {{#each students }}
+          <td>
+            <h4 class="ui header">
+              <div class="content" style="width:100%;">
+                <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
+                  {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
+                  {{ emails.[0].address }}
+                  <a id="suspend-student-registration" data-tooltip="Suspend registration!" data-position="top center" data-inverted=""><i class="ui big red remove icon"></i></a>
+                <div class="sub header">
+
+                </div>
+              </div>
+            </h4>
+          </td>
+          <td class="single line right aligned">
+            <!-- <a id="remove-user" style="cursor:pointer;" data-tooltip="Remove" data-position="right center" data-inverted=""><i class="huge red remove icon listing"></i></a> -->
+          </td>
+        {{else}}
+          There are no enrolled students!
+        {{/each}}
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Suspended Registrations</h3>
+  <div class="ui divider"></div>
+  <table class="ui very basic padded table">
+    <tbody>
+      <tr>
+        {{#each suspended }}
+          <td>
+            <h4 class="ui header">
+              <div class="content" style="width:100%;">
+                <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
+                  {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
+                  {{ emails.[0].address }}
+                <div class="sub header">
+
+                </div>
+              </div>
+            </h4>
+          </td>
+          <td class="single line right aligned">
+            <!-- <a id="remove-user" style="cursor:pointer;" data-tooltip="Remove" data-position="right center" data-inverted=""><i class="huge red remove icon listing"></i></a> -->
+          </td>
+        {{else}}
+          There are no suspended registrations!
+        {{/each}}
       </tr>
     </tbody>
   </table>

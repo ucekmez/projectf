@@ -77,5 +77,9 @@ Template.registerHelper("contract_alert_seen", function(){
   return Session.get("contract_alert_seen");
 });
 
+Template.registerHelper("get_student_profile", function(sid){
+  return Meteor.users.findOne({ _id: sid})
+});
+
 
 ////////
