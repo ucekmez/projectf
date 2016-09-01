@@ -1,73 +1,78 @@
 <template name="InstructorEditCourse">
-  <h1>Edit Course <i>{{ course.title }} [{{ course.code }}]</i></h1>
-  <div class="ui divider"></div>
+  <h4 class="title-border">Edit Course <i>{{ course.title }} [{{ course.code }}]</i></h4>
 
   {{#with course}}
-    <div class="twelve wide column edit-question">
-      <!-- form div starts-->
-      <div class="ui">
-        <div class="ui form">
-
-          <div class="two fields">
-            <div class="field">
+    <div class="col-md-12">
+      <form id="add-new-course">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
               <label>Course Code</label>
-              <input type="text" placeholder="CS101" name="code_edit" id="code-edit" value="{{ code }}"/>
+              <input class="form-control" name="code_edit" id="code-edit" placeholder="CS101" type="text" value="{{ code }}" required>
             </div>
-            <div class="field">
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
               <label>Course Title</label>
-              <input type="text" placeholder="Course Title" name="title_edit" id="title-edit" value="{{ title }}"/>
+              <input class="form-control" name="title_edit" id="title-edit" placeholder="Course Title" type="text" value="{{ title }}" required>
             </div>
-          </div>
-
-          <div class="two fields">
-            <div class="field">
-              <label>Opens At</label>
-              <input type="text" placeholder="YYYY-MM-DD" name="startdate_edit" id="startdate-edit" value="{{ convertToDateFormat startDate }}" />
-            </div>
-
-            <div class="field">
-              <label>Ends At</label>
-              <input type="text" placeholder="YYYY-MM-DD" name="enddate_edit" id="enddate-edit" value="{{ convertToDateFormat endDate }}" />
-            </div>
-
-          </div>
-
-          <div class="two fields">
-            <div class="field">
-              <div class="ui toggle checkbox">
-                {{#if isActive}}
-                  <input type="checkbox" name="is_active" id="is-active" checked>
-                {{else}}
-                  <input type="checkbox" name="is_active" id="is-active">
-                {{/if}}
-                <label>Is Visible?</label>
-              </div>
-            </div>
-
-            <div class="field">
-              <div class="ui toggle checkbox">
-                {{#if acceptStudents}}
-                  <input type="checkbox" name="accept_students" id="accept-students" checked>
-                {{else}}
-                  <input type="checkbox" name="accept_students" id="accept-students">
-                {{/if}}
-                <label>Accept Enrollments?</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="field">
-            <label>Description</label>
-            {{> froalaReactive getFEContext disableRightClick=true}}
-          </div>
-
-
-          <div class="actions">
-            <div class="ui button primary submit fluid big" id="edit-course-submit-button">Submit</div>
           </div>
         </div>
-      </div>
-      <!-- /form div ends-->
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Opens At</label>
+              <input class="form-control" name="startdate_edit" id="startdate-edit" placeholder="YYYY-MM-DD" type="text" value="{{ convertToDateFormat startDate }}" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Ends At</label>
+              <input class="form-control" name="enddate_edit" id="enddate-edit" placeholder="YYYY-MM-DD" type="text" value="{{ convertToDateFormat endDate }}" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="checkbox-inline">
+                {{#if isActive}}
+                  <input type="checkbox" id="is-active" name="is_active" checked> Is Visible?
+                {{else}}
+                  <input type="checkbox" id="is-active" name="is_active"> Is Visible?
+                {{/if}}
+              </label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="checkbox-inline">
+                {{#if acceptStudents}}
+                  <input type="checkbox" id="accept-students" name="accept_students" checked> Accept Enrollments?
+                {{else}}
+                  <input type="checkbox" id="accept-students" name="accept_students"> Accept Enrollments?
+                {{/if}}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Description</label>
+              {{> froalaReactive getFEContext disableRightClick=true}}
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <button type="button" class="btn btn-primary btn-lg btn-block" id="edit-course-submit-button">Submit</button>
+        </div>
+
+      </form>
     </div>
   {{/with}}
 </template>

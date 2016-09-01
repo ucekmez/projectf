@@ -4,14 +4,13 @@ Meteor.methods({
   /*
     admin_add_new_user: adds new user and relates a profile to it
   */
-  admin_add_new_user(username, email, password, role){
+  admin_add_new_user(email, password, role){
 
     if (Roles.userIsInRole(Meteor.userId(), ['admin'])) {
       // yeni bir kullanici olusturuyoruz
 
       profile = {'name': "", 'gender': "", 'age': "", 'address': "", 'shortid': shortid.generate()};
       const user_id = Accounts.createUser({
-        username: username,
         email: email,
         password: password,
         profile: profile

@@ -1,34 +1,53 @@
 <template name="MainNavigation">
-  <div class="main-navigation">
-    <!-- <a href="{{pathFor 'home'}}"><strong style="font-size:1.8em;padding-right:4px;">ProjectF</strong><sup>beta</sup></a>-->
+  <header id="header" class="navbar-fixed-top header" role="banner">
+    <div class="container">
+      <div class="row">
+        <!-- Logo start -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand navbar-bg">
+              <a href="{{pathFor 'home'}}">
+                <img src="/img/logo_small.png" alt="logo">
+              </a>
+            </div>
+        </div><!--/ Logo end -->
+        <nav class="collapse navbar-collapse clearfix" role="navigation">
+          <ul class="nav navbar-nav navbar-right">
+            {{#if isInRole 'admin' }}
+              <li><a href="{{pathFor 'admin_dashboard'}}" style="cursor:pointer;" class="nav-link">Admin Dashboard</a></li>
+              <li><a href="{{ pathFor 'admin_edit_profile' }}" class="item">Edit Profile</a></li>
+            {{else}}
+              {{#if isInRole 'courseadmin' }}
+                <li><a href="{{pathFor 'courseadmin_dashboard'}}" style="cursor:pointer;" class="nav-link">Course Admin Dashboard</a></li>
+                <li><a href="{{ pathFor 'courseadmin_edit_profile' }}" class="item">Edit Profile</a></li>
+              {{else}}
+                {{#if isInRole 'instructor' }}
+                  <li><a href="{{pathFor 'instructor_dashboard'}}" style="cursor:pointer;" class="nav-link">Instructor Dashboard</a></li>
+                  <li><a href="{{ pathFor 'instructor_edit_profile' }}" class="item">Edit Profile</a></li>
+                {{else}}
+                  {{#if isInRole 'student' }}
+                    <li><a href="{{pathFor 'student_dashboard'}}" style="cursor:pointer;" class="nav-link">Student Dashboard</a></li>
+                    <li><a href="{{ pathFor 'student_edit_profile' }}" class="item">Edit Profile</a></li>
+                  {{/if}}
+                {{/if}}
+              {{/if}}
+            {{/if}}
 
-    <a href="{{pathFor 'home'}}">
-      <img src="/img/logo_small.png" />
-    </a>
 
-
-    {{#if currentUser}}
-      <a style="cursor:pointer;float:right;" id="logout" class="nav-link"><i class="sign out icon"></i> Sign Out</a>
-    {{else}}
-      <a style="cursor:pointer;float:right;" id="login" class="nav-link"><i class="sign in icon"></i> Sign In/Up</a>
-    {{/if}}
-
-    {{#if isInRole 'admin' }}
-      <a href="{{pathFor 'admin_dashboard'}}" style="cursor:pointer;float:right;" class="nav-link">Admin Dashboard</a>
-    {{else}}
-      {{#if isInRole 'courseadmin' }}
-        <a href="{{pathFor 'courseadmin_dashboard'}}" style="cursor:pointer;float:right;" class="nav-link">Course Admin Dashboard</a>
-      {{else}}
-        {{#if isInRole 'instructor' }}
-          <a href="{{pathFor 'instructor_dashboard'}}" style="cursor:pointer;float:right;" class="nav-link">Instructor Dashboard</a>
-        {{else}}
-          {{#if isInRole 'student' }}
-            <a href="{{pathFor 'student_dashboard'}}" style="cursor:pointer;float:right;" class="nav-link">Student Dashboard</a>
-          {{/if}}
-        {{/if}}
-      {{/if}}
-    {{/if}}
-
-  </div>
-  <div class="ui divider"></div>
+            {{#if currentUser}}
+              <li><a style="cursor:pointer;" id="logout">Sign Out</a></li>
+            {{else}}
+              <li><a style="cursor:pointer;" id="login">Sign In/Up</a></li>
+            {{/if}}
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav><!--/ Navigation end -->
+      </div><!--/ Row end -->
+    </div><!--/ Container end -->
+  </header><!--/ Header end -->
 </template>

@@ -98,14 +98,14 @@ Template.CourseAdminListCourses.helpers({
 });
 
 Template.CourseAdminEditContract.onRendered(() => {
-  $('.fr-edit-contract .fr-toolbar').addClass("ui segment fr-toolbar");
+  $('.fr-toolbar').addClass("panel panel-default fr-toolbar");
 });
 
 Template.CourseAdminEditContract.events({
   "click #edit-contract-ok-button"(event, instance){
     FlowRouter.go('courseadmin_list_courses');
   },
-  "click .message .close.icon"(event, instance) {
+  "click .message-close-icon"(event, instance) {
     $(".ui.info.message").hide();
     Session.set("contract_alert_seen", true);
   },
@@ -177,7 +177,7 @@ Template.CourseAdminListCourseStudents.events({
       if (err) {
         toastr.error(err.data);
       }else {
-        toastr.success("Registration has been suspended!");
+        toastr.success("Registration has been approved!");
       }
     });
   }

@@ -38,6 +38,18 @@ Meteor.methods({
         }
       }
     }else { return -1; }
-  }
+  },
+
+  student_course_is_given_by(course_shortid) {
+    const course = Courses.findOne({ shortid: course_shortid});
+    if (course && course.instructor) {
+      const user = Meteor.users.findOne(course.instructor);
+      if (user && user.profile) {
+        return user.profile.name;
+      }else {
+        return user.emails[0].address;
+      }
+    }
+  },
 
 });

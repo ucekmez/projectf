@@ -48,7 +48,14 @@ instructorRoutes.route('/courses', { name: 'instructor_list_courses',
 });
 
 
-instructorRoutes.route('/course/:courseId', { name: 'instructor_single_course',
+instructorRoutes.route('/course/new', { name: 'instructor_add_new_course', // edit course
+  action() {
+    BlazeLayout.render('InstructorLayout', {main: 'InstructorAddNewCourse', nav: 'MainNavigation', leftmenu: 'InstructorLeftMenu' });
+    NProgress.done();
+  }
+});
+
+instructorRoutes.route('/course/:courseId', { name: 'instructor_single_course', // edit course
   subscriptions: function(params, queryParams) {
     if(Meteor.isClient) {
       this.register('CoursesForInstructor', Meteor.subscribe("CoursesForInstructor"));
@@ -116,64 +123,28 @@ Template.InstructorAddNewCourse.onRendered(() => {
 });
 
 
-Template.InstructorLeftMenu.events({
-  'click #instructor-add-new-course'(event, instance) {
-    $('.modal.add-new-course')
-      .modal({
-        //blurring: true,
-        onHide() {
-          $('.ui.form').form('reset');
-          $('.ui.form').form('clear');
-          Session.set("success", false);
-        },
-        onDeny() {
-          $('.ui.form').form('reset');
-          $('.ui.form').form('clear');
-          Session.set("success", false);
-        },
-        onApprove() {
-          $('.ui.form')
-            .form({
-              fields: {
-                code      : 'empty',
-                title     : 'empty',
-                startdate : 'empty',
-                enddate   : 'empty',
-              }
-            });
+Template.InstructorAddNewCourse.events({
+  'click #add-new-course-submit-button'(event, instance) {
+    const code            = $('#code').val();
+    const title           = $('#title').val();
+    const startdate       = $('#startdate').val();
+    const enddate         = $('#enddate').val();
+    const is_active       = $('#is-active').is(':checked');
+    const accept_students = $('#accept-students').is(':checked');
 
-          if ($('.ui.form').form('is valid')) {
-            const code      = $('#code').val();
-            const title     = $('#title').val();
-            const startdate = $('#startdate').val();
-            const enddate   = $('#enddate').val();
-
-            Meteor.call('instructor_add_new_course', code, title, startdate, enddate, function (err, data) {
-              if (err) {
-                //console.log(err);
-                toastr.error(err.reason);
-                Session.set("success", false);
-              }else {
-                Session.set("success", false);
-                $(".ui.form").form('reset');
-                $(".ui.form").form('clear');
-                toastr.success('New course has been added!');
-                $('.modal.add-new-course').modal('hide');
-                FlowRouter.go('instructor_single_course', {courseId: data});
-              }
-            });
-
-            if (!Session.get("success")) {
-              Session.set("success", false); return false;
-            }
-          }else {
-            toastr.error('Please correct the errors!');
-            return false;
-          }
+    if (code && title && startdate && enddate) {
+      Meteor.call('instructor_add_new_course', code, title, startdate, enddate, is_active, accept_students, function (err, data) {
+        if (err) {
+          toastr.error(err.reason);
+        }else {
+          toastr.success('New course has been created!');
+          FlowRouter.go('instructor_list_courses');
         }
-      })
-      .modal('show');
-  },
+      });
+    } else {
+      toastr.error('Please fill in the blanks!');
+    }
+  }
 });
 
 Template.InstructorListCourses.helpers({
@@ -208,8 +179,7 @@ Template.InstructorListCourses.events({
 });
 
 Template.InstructorEditCourse.onRendered(() => {
-  $('.fr-edit-course .fr-toolbar').addClass("ui segment fr-toolbar");
-  //$('.fr-edit-course .fr-wrapper').addClass("ui segment fr-toolbar");
+  $('.fr-edit-course .fr-toolbar').addClass("panel panel-default");
 
   $.getScript("/js/datetimepicker.js")
     .done(function(script, textStatus) {
@@ -274,26 +244,14 @@ Template.InstructorEditCourse.helpers({
 
 Template.InstructorEditCourse.events({
   'click #edit-course-submit-button'(event, instance) {
-    $('.ui.form')
-      .form({
-        fields: {
-          code_edit        : 'empty',
-          title_edit       : 'empty',
-          startdate_edit   : 'empty',
-          enddate_edit     : 'empty',
-          is_active        : 'empty',
-          accept_students  : 'empty',
-        }
-      });
+    const code_edit      = $('#code-edit').val();
+    const title_edit     = $('#title-edit').val();
+    const startdate_edit = $('#startdate-edit').val();
+    const enddate_edit   = $('#enddate-edit').val();
+    const is_active      = $('#is-active').is(':checked');
+    const accept_students = $('#accept-students').is(':checked');
 
-    if ($('.ui.form').form('is valid')) {
-      const code_edit      = $('#code-edit').val();
-      const title_edit     = $('#title-edit').val();
-      const startdate_edit = $('#startdate-edit').val();
-      const enddate_edit   = $('#enddate-edit').val();
-      const is_active      = $('#is-active').is(':checked');
-      const accept_students = $('#accept-students').is(':checked');
-
+    if (code_edit && title_edit && startdate_edit && enddate_edit) {
       Meteor.call('instructor_edit_course', FlowRouter.getParam('courseId'), code_edit, title_edit, startdate_edit, enddate_edit, is_active, accept_students, function (err, data) {
         if (err) {
           toastr.error(err.reason);
@@ -302,10 +260,10 @@ Template.InstructorEditCourse.events({
           FlowRouter.go('instructor_list_courses');
         }
       });
-    }else {
-      toastr.error('Please correct the errors!');
+    } else {
+      toastr.error('Please fill in the blanks!');
     }
-  }
+  },
 });
 
 
@@ -363,6 +321,7 @@ Template.InstructorEditSchedule.events({
   },
 
   'click #thumbnail': function() {
+    $(".row.edit-wrapper").css("min-height", "450px");
     $('#start-editing').hide();
     if (!Session.get("active-week-before")) {
       Session.set("active-week-before", this._id);
@@ -375,7 +334,8 @@ Template.InstructorEditSchedule.events({
 });
 
 Template.EditSingleWeek.onRendered(() => {
-  $('.fr-toolbar').addClass("ui segment");
+  $('.fr-toolbar').addClass("panel panel-default");
+  $('.fr-wrapper').addClass("panel panel-default");
 });
 
 

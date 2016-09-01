@@ -1,52 +1,59 @@
 <template name="StudentListCourses">
-  <h1>List of Courses</h1>
+  <h4 class="title-border">List of Courses</h4>
 
-  <div class="ui divider"></div>
-  <table class="ui very basic padded table">
-    <tbody>
-      {{#if subsReady 'CoursesForStudent'}}
-        {{#each courses}}
-          {{> StudentListCoursesTable}}
-        {{else}}
-          There are no courses yet!
-        {{/each}}
-      {{else}}
-        <h3 style="color:#ddd;">Please wait, your request is loading...</h3>
-      {{/if}}
-    </tbody>
-  </table>
+  {{#if subsReady 'CoursesForStudent'}}
+    {{#if courses}}
+      <div class="panel panel-default">
+        <table class="table">
+          <thead> <tr> <th>#</th> <th>Title [code]</th> <th>Start</th> <th>End</th> <th>Given By</th></tr> </thead>
+          <tbody>
+            {{#each courses}}
+              {{> StudentListCoursesTable}}
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    {{else}}
+      <p style="padding-top:10px;padding-left:10px;">There are no courses yet!</p>
+    {{/if}}
+  {{else}}
+    <h3 style="color:#ddd;">Please wait, your request is loading...</h3>
+  {{/if}}
 </template>
+
+
+
 
 
 <template name="StudentListCoursesTable">
   <tr>
+    <th scope="row">{{ index }}</th>
     <td>
-      <h4 class="ui header">
-        <div class="content" style="width:100%;">
-          <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
 
+      {{#if acceptStudents}}
+        <a href="{{ pathFor 'student_single_course' courseId=shortid }}">{{ title }} [{{ code }}]</a><br />
+        <span class="badge" style="background-color: green;">currently accepting students!</span>
+      {{else}}
+        <a href="{{ pathFor 'student_single_course' courseId=shortid }}">{{ title }} [{{ code }}]</a><br />
+      {{/if}}
 
-            {{#if acceptStudents }}
-              <a class="list-item-header" href="{{ pathFor 'student_single_course' courseId=shortid }}"> {{ title }} [{{ code }}]</a>
-              <div class="ui left pointing teal basic label">currently accepting students!</div>
-            {{else}}
-              <a class="list-item-header" style="color:#999;" href="{{ pathFor 'student_single_course' courseId=shortid }}"> {{ title }} [{{ code }}]</a>
-            {{/if }}
-          <div class="sub header">
-            {{#if hasPassed startDate }}
-              started <b>{{ dateFromNow startDate }}</b>,
-            {{else}}
-              starts <b>{{ dateFromNow startDate }}</b>,
-            {{/if}}
-
-            {{#if hasPassed endDate }}
-              ended <b>{{ dateFromNow endDate }}</b>,
-            {{else}}
-              ends <b>{{ dateFromNow endDate }}</b>,
-            {{/if}}
-          </div>
-        </div>
-      </h4>
+    </td>
+    <td>
+      {{#if hasPassed startDate }}
+        started <b>{{ dateFromNow startDate }}</b>,
+      {{else}}
+        starts <b>{{ dateFromNow startDate }}</b>,
+      {{/if}}
+    </td>
+    <td>
+      {{#if hasPassed endDate }}
+        ended <b>{{ dateFromNow endDate }}</b>,
+      {{else}}
+        ends <b>{{ dateFromNow endDate }}</b>,
+      {{/if}}
+    </td>
+    <td>
+      {{ student_course_is_given_by shortid }}
     </td>
   </tr>
 </template>

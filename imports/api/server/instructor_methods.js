@@ -5,7 +5,7 @@ Meteor.methods({
   /*
     instructor_add_new_course: adds new user and relates a profile to it
   */
-  instructor_add_new_course(code, title, startdate, enddate){
+  instructor_add_new_course(code, title, startdate, enddate, is_active, accept_students){
     // yeni bir course olusturuyoruz
     const user_id = Meteor.userId();
 
@@ -16,8 +16,8 @@ Meteor.methods({
         startDate      : startdate,
         endDate        : enddate,
         instructor     : user_id,
-        isActive       : false,
-        acceptStudents : false,
+        isActive       : is_active,
+        acceptStudents : accept_students,
       });
 
       return Courses.findOne(course_id).shortid;
@@ -48,12 +48,12 @@ Meteor.methods({
     if (Roles.userIsInRole(user_id, ['instructor'])) {
       Courses.update({ shortid: shortid}, {
         $set: {
-          code: code,
-          title: title,
-          startDate: startdate,
-          endDate: enddate,
-          isActive: is_active,
-          acceptStudents: accept_students,
+          code           : code,
+          title          : title,
+          startDate      : startdate,
+          endDate        : enddate,
+          isActive       : is_active,
+          acceptStudents : accept_students,
         }
       });
     } else {

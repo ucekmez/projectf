@@ -23,6 +23,13 @@ adminRoutes.route('/', { name: 'admin_dashboard',
   }
 });
 
+adminRoutes.route('/newuser', { name: 'admin_add_new_user',
+  action() {
+    BlazeLayout.render('AdminLayout', {main: 'AdminAddNewUser', nav: 'MainNavigation', leftmenu: 'AdminLeftMenu' });
+    NProgress.done();
+  }
+});
+
 adminRoutes.route('/courseadmins', { name: 'admin_list_courseadmins',
   subscriptions: function(params, queryParams) {
     if(Meteor.isClient) {
@@ -75,56 +82,27 @@ adminRoutes.route('/profile', { name: 'admin_edit_profile',
 /***********************       |ROUTES       ***********************/
 
 
-Template.AdminLeftMenu.events({
-  'click #admin-add-new-user-left-menu'(event, instance) {
-    $('.modal.add-new-user')
-      .modal({
-        //blurring: true,
-        onDeny() {
-          $('.ui.form').form('reset');
-          $('.ui.form').form('clear');
-          Session.set("success", false);
-        },
-        onApprove() {
-          $('.ui.form')
-            .form({
-              fields: {
-                username      : 'empty',
-                email         : 'empty',
-                password      : ['minLength[4]', 'empty'],
-              }
-            });
+Template.AdminAddNewUser.events({
+  'click #admin-add-new-user-button'(event, instance) {
+    event.preventDefault();
+    const email    = $('#email').val();
+    const password = $('#password').val();
+    const role     = $('.radio-inline input[name=role]:checked').val();
 
-            if ($('.ui.form').form('is valid')) {
-              const username = $('#username').val();
-              const email = $('#email').val();
-              const password = $('#password').val();
-              const role = $('.checkbox input[name=role]:checked').val();
-              Meteor.call('admin_add_new_user', username, email, password, role, function (err, data) {
-                if (err) {
-                  //console.log(err);
-                  toastr.error(err.reason);
-                  Session.set("success", false);
-                }else {
-                  Session.set("success", false);
-                  $(".ui.form").form('reset');
-                  $(".ui.form").form('clear');
-                  toastr.success('New user has been added!');
-                  $('.modal.add-new-user').modal('hide');
-                  //FlowRouter.go('admin_list_users');
-                }
-              });
-
-              if (!Session.get("success")) {
-                Session.set("success", false); return false;
-              }
-            }else {
-              toastr.error('Please correct the errors!');
-              return false;
-            }
+    if (email && password && role) {
+      Meteor.call('admin_add_new_user', email, password, role, function (err, data) {
+        if (err) {
+          toastr.error(err.reason);
+        }else {
+          toastr.success('New user has been added!');
+          if (role == "1") { FlowRouter.go("admin_list_courseadmins"); }
+          if (role == "2") { FlowRouter.go("admin_list_instructors"); }
+          if (role == "3") { FlowRouter.go("admin_list_students"); }
         }
-      })
-      .modal('show');
+      });
+    }else {
+      toastr.warning("Please fill all the fields!");
+    }
   },
 });
 

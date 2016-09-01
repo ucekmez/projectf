@@ -10,7 +10,7 @@ import './edit_profile'; // UserEditProfile
 
 FlowRouter.route('/', { name: 'home',
   action() {
-    BlazeLayout.render('LandingLayout', { nav: 'MainNavigation'});
+    BlazeLayout.render('LandingLayout', { nav: 'MainNavigation', main:'LandingArea' });
     NProgress.done();
   }
 });
@@ -24,7 +24,7 @@ FlowRouter.route('/login', { name: 'login',
     }
   }],
   action() {
-    BlazeLayout.render('LoginLayout', { nav: 'MainNavigation'});
+    BlazeLayout.render('LandingLayout', { nav: 'MainNavigation', main:'LoginForm' });
     NProgress.done();
   }
 });
@@ -45,45 +45,30 @@ Template.MainNavigation.events({
 
 
 Template.UserEditProfile.onRendered(() => {
-  $('#gender-edit').dropdown('set selected', Meteor.user().profile.gender);
+  $('#gender-edit').val(Meteor.user().profile.gender)
 });
 
 Template.UserEditProfile.events({
   'click #profile-submit-button'(event, instance) {
-    $('.ui.form')
-      .form({
-        fields: {
-          name_edit       : 'empty',
-          age_edit        : 'empty',
-          gender_edit     : 'empty',
-          address_edit    : 'empty',
-          email_edit      : 'empty',
+    const name_edit     = $('#name-edit').val();
+    const age_edit      = $('#age-edit').val();
+    const gender_edit   = $('#gender-edit').val();
+    const address_edit  = $('#address-edit').val();
+    const email_edit    = $('#email-edit').val();
+
+    if (name_edit && age_edit && gender_edit && address_edit && email_edit) {
+      Meteor.call('user_edit_profile', name_edit, age_edit, gender_edit, address_edit, email_edit, function (err, data) {
+        if (err) { toastr.error(err.reason); }
+        else {
+          toastr.success('Profile has been updated!');
+          Meteor.call('user_get_dashboard', function(err, data) {
+            if (err) { toastr.error(err.reason); }
+            else { FlowRouter.go(data); }
+          });
         }
       });
-
-    if ($('.ui.form').form('is valid')) {
-      const name_edit     = $('#name-edit').val();
-      const age_edit      = $('#age-edit').val();
-      const gender_edit   = $('#gender-edit').val();
-      const address_edit  = $('#address-edit').val();
-      const email_edit    = $('#email-edit').val();
-
-      if (name_edit && age_edit && gender_edit && address_edit && email_edit) {
-        Meteor.call('user_edit_profile', name_edit, age_edit, gender_edit, address_edit, email_edit, function (err, data) {
-          if (err) { toastr.error(err.reason); }
-          else {
-            toastr.success('Profile has been updated!');
-            Meteor.call('user_get_dashboard', function(err, data) {
-              if (err) { toastr.error(err.reason); }
-              else { FlowRouter.go(data); }
-            });
-          }
-        });
-      }else {
-        return false;
-      }
     }else {
-      toastr.error('Please correct the errors!');
+      toastr.warning("Please fill all the fields!");
     }
   }
 });

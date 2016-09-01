@@ -1,30 +1,85 @@
 <template name="AdminLayout">
-  <div class="ui container admin-layout">
-    {{> Template.dynamic template=nav}}
+  <body>
+  	<div class="body-inner">
+    	<!-- Header start -->
+      {{> Template.dynamic template=nav}}
 
-    {{#unless isInRole 'admin'}}
-      You are not authorized to see this page!
-    {{else}}
-      <div class="ui stackable grid">
-        <div class="four wide column">
-          {{> Template.dynamic template=leftmenu}}
-        </div>
-        <div class="twelve wide column">
-          {{> Template.dynamic template=main}}
-        </div>
-      </div>
-    {{/unless}}
-  </div>
+
+      {{#unless isInRole 'admin'}}
+        <section id="main-container">
+          <div class="container">
+
+            <div class="row">
+              <div class="col-md-12">
+                  You are not authorized to see this page!
+              </div>
+            </div>
+          </div>
+        </section>
+      {{else}}
+        <!-- Main container start -->
+
+        <section id="main-container">
+          <div class="container">
+
+            <div class="row">
+              <div class="col-md-3">
+                {{> Template.dynamic template=leftmenu}}
+              </div><!--/ Col end -->
+
+              <div class="col-md-9">
+                {{> Template.dynamic template=main}}
+              </div><!--/ Col end -->
+            </div><!-- Content row  end -->
+
+
+          </div><!--/ container end -->
+        </section><!--/ Main container end -->
+      {{/unless}}
+
+
+    	<!-- Footer start -->
+    	<section id="copyright" class="copyright angle">
+    		<div class="container">
+    			<div class="row">
+    				<div class="col-md-12 text-center">
+    					<ul class="footer-social unstyled">
+    						<li>
+    							<a title="Twitter" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-twitter"></i></span>
+    							</a>
+    							<a title="Facebook" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-facebook"></i></span>
+    							</a>
+    							<a title="Google+" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-google-plus"></i></span>
+    							</a>
+    							<a title="linkedin" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-linkedin"></i></span>
+    							</a>
+    							<a title="Pinterest" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-pinterest"></i></span>
+    							</a>
+    						</li>
+    					</ul>
+    				</div>
+    			</div><!--/ Row end -->
+    			<div class="row">
+    				<div class="col-md-12 text-center">
+    					<div class="copyright-info">
+             			 &copy; Copyright 2015 Croweer Inc. <span>All Rights Reserved</span>
+            			</div>
+    				</div>
+    			</div><!--/ Row end -->
+    		</div><!--/ Container end -->
+    	</section><!--/ Footer end -->
+
+  	</div><!-- Body inner end -->
+  </body>
 </template>
 
 
+
 <template name="AdminMainScreen">
-  <h2>Hi,
-    {{#if currentUser.profile.name }}
-      {{ currentUser.profile.name }}!
-    {{else}}
-      {{ currentUser.username }}!
-    {{/if}}
-   Welcome to your dashboard!
- </h2>
+  <h2>Welcome to your dashboard!</h2>
 </template>

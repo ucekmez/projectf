@@ -1,21 +1,95 @@
 <template name="LandingLayout">
-  <div class="ui container landing-layout">
-    {{> Template.dynamic template=nav}}
+  <body>
+  	<div class="body-inner">
+    	<!-- Header start -->
+      {{> Template.dynamic template=nav}}
 
-    <p><h1>Welcome to landing page!</h1></p>
+<!--
+    	<div id="banner-area">
+        <img src="/img/theme/landing-bg.png" alt="">
+    		<div class="parallax-overlay"></div>
+    			<div class="banner-title-content">
+    	        	<div class="text-center">
+    		        	<h2>WELCOME</h2>
+    	          	</div>
+              	</div>
+    	</div> --> <!-- Banner area end -->
 
-  </div>
+    	<!-- Main container start -->
+
+    	<section id="main-container">
+    		<div class="container">
+
+          {{> Template.dynamic template=main}}
+
+    		</div><!--/ container end -->
+    	</section><!--/ Main container end -->
+
+
+
+    	<!-- Footer start -->
+    	<section id="copyright" class="copyright angle">
+    		<div class="container">
+    			<div class="row">
+    				<div class="col-md-12 text-center">
+    					<ul class="footer-social unstyled">
+    						<li>
+    							<a title="Twitter" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-twitter"></i></span>
+    							</a>
+    							<a title="Facebook" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-facebook"></i></span>
+    							</a>
+    							<a title="Google+" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-google-plus"></i></span>
+    							</a>
+    							<a title="linkedin" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-linkedin"></i></span>
+    							</a>
+    							<a title="Pinterest" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-pinterest"></i></span>
+    							</a>
+    						</li>
+    					</ul>
+    				</div>
+    			</div><!--/ Row end -->
+    			<div class="row">
+    				<div class="col-md-12 text-center">
+    					<div class="copyright-info">
+             			 &copy; Copyright 2015 Croweer Inc. <span>All Rights Reserved</span>
+            			</div>
+    				</div>
+    			</div><!--/ Row end -->
+    		</div><!--/ Container end -->
+    	</section><!--/ Footer end -->
+
+  	</div><!-- Body inner end -->
+  </body>
 </template>
 
 
-<template name="LoginLayout">
-  <div class="ui container landing-layout">
-    {{> Template.dynamic template=nav}}
+<template name="LandingArea">
+  <div class="row">
+    <div class="col-md-3">
+      <h3 class="title-border">Heading</h3>
+      <h1>h1. Heading 1</h1>
+      <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly.</p>
+    </div><!--/ Col end -->
 
-    <div class="ui stackable grid centered">
-      <div class="eight wide column">
-        {{> atForm }}
-      </div>
+    <div class="col-md-9">
+      <h3 class="title-border">Paragraph</h3>
+      <p>Lorem ipsum dolor sit amet, <mark>a mark here</mark> adipisicing elit. Atque, iusto, minus sequi natus nesciunt rerum tenetur corrupti autem officiis fugiat expedita laudantium ea aspernatur</p>
+    </div><!--/ Col end -->
+  </div><!-- Content row  end -->
+</template>
+
+
+
+
+<template name="LoginForm">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      {{> atForm }}
     </div>
   </div>
 </template>

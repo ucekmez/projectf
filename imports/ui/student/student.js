@@ -71,6 +71,21 @@ studentRoutes.route('/courses/:courseId', { name: 'student_single_course',
   }
 });
 
+
+studentRoutes.route('/courses/:courseId/contract', { name: 'student_course_contract',
+  subscriptions: function(params, queryParams) {
+    if(Meteor.isClient) {
+      this.register('SingleCourseForStudent', Meteor.subscribe("SingleCourseForStudent", params.courseId));
+    }
+  },
+  action() {
+    BlazeLayout.render('StudentLayout', {main: 'StudentAcceptContract', nav: 'MainNavigation', leftmenu: 'StudentLeftMenu' });
+    FlowRouter.subsReady("SingleCourseForStudent", function() {
+      NProgress.done();
+    });
+  }
+});
+
 /***********************       |ROUTES       ***********************/
 
 
@@ -102,24 +117,40 @@ Template.StudentSingleCourse.helpers({
   },
 });
 
-Template.StudentSingleCourse.events({
-  'click #enroll-button'(event, instance) {
-    $('.modal.student-accept-contract')
-      .modal({
-        blurring: true,
-        observeChanges: true,
-        onApprove() {
-          $('#enroll-button').addClass('disabled');
-          Meteor.call('student_send_enroll_request', FlowRouter.getParam('courseId'), function(err, data) {
-            if (err) {
-              toastr.error(err.reason);
-            }else {
-              if (data == "OK") { toastr.info("Your request has been sent!"); }
-              if (data == "ALREADY") { toastr.warning("Your request is being processed! Please wait"); }
-            }
-          });
-        },
-      })
-      .modal('show');
+
+Template.StudentListCoursesTable.helpers({
+  student_course_is_given_by(courseId) {
+    return ReactiveMethod.call('student_course_is_given_by', courseId, function(err, data) {
+      if (err) {
+        console.log(err.reason);
+      }else {
+        return data;
+      }
+    });
   }
+});
+
+
+Template.StudentAcceptContract.helpers({
+  course() {
+    return Courses.findOne({ shortid : FlowRouter.getParam('courseId')});
+  },
+});
+
+Template.StudentAcceptContract.events({
+  'click #contract-submit-button'(event, instance) {
+    $('#contract-submit-button').addClass('disabled');
+    Meteor.call('student_send_enroll_request', FlowRouter.getParam('courseId'), function(err, data) {
+      if (err) {
+        toastr.error(err.reason);
+      }else {
+        if (data == "OK") { toastr.info("Your request has been sent!"); }
+        if (data == "ALREADY") { toastr.warning("Your request is being processed! Please wait"); }
+        FlowRouter.go('student_single_course', { courseId:FlowRouter.getParam('courseId') });
+      }
+    });
+  },
+  'click #contract-dismiss-button'(event, instance) {
+    FlowRouter.go('student_single_course', { courseId:FlowRouter.getParam('courseId') });
+  },
 });

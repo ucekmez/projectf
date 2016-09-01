@@ -1,73 +1,67 @@
 <template name="StudentSingleCourse">
   {{#with course }}
-  <h1>{{ title }} [{{ code }}]</h1>
+  <h4 class="title-border">{{ title }} [{{ code }}]</h4>
 
-  <div class="ui divider"></div>
+  {{#if hasPassed startDate }}
+    started <b>{{ dateFromNow startDate }}</b>,
+  {{else}}
+    starts <b>{{ dateFromNow startDate }}</b>,
+  {{/if}}
 
-  <div class="sub header">
-    {{#if hasPassed startDate }}
-      started <b>{{ dateFromNow startDate }}</b>,
-    {{else}}
-      starts <b>{{ dateFromNow startDate }}</b>,
-    {{/if}}
+  {{#if hasPassed endDate }}
+    ended <b>{{ dateFromNow endDate }}</b>
+  {{else}}
+    ends <b>{{ dateFromNow endDate }}</b>
+  {{/if}}
 
-    {{#if hasPassed endDate }}
-      ended <b>{{ dateFromNow endDate }}</b>,
-    {{else}}
-      ends <b>{{ dateFromNow endDate }}</b>,
-    {{/if}}
+  {{#if acceptStudents }}
+    <span class="badge" style="background-color: green;">currently accepting students!</span>
+  {{/if}}
 
-    {{#if acceptStudents }}
-      <div class="ui left pointing teal basic label">currently accepting students!</div>
-    {{/if}}
 
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          {{{ description }}}
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="ui divider"></div>
-
-  {{{ description }}}
 
   {{#if equals status "STUDENT" }}
 
     {{#each schedule }}
-      <div class="ui fluid card">
-        <div class="content">
+      <div class="panel panel-default">
+        <div class="panel-body">
           {{{ content }}}
         </div>
       </div>
     {{/each}}
 
-
-
-
-
-
-
   {{else}}
     {{#if equals status "PENDING" }}
-      <div class="actions">
-        <div class="ui button orange submit fluid big disabled">Pending Request!</div>
+      <div class="col-md-12">
+        <button type="button" class="btn btn-warning disabled btn-lg btn-block">Pending Request!</button>
       </div>
     {{else}}
       {{#if equals status "SUSPENDED" }}
-        <div class="actions">
-          <div class="ui button red submit fluid big disabled">Request denied!</div>
+        <div class="col-md-12">
+          <button type="button" class="btn btn-danger disabled btn-lg btn-block">Request denied!</button>
         </div>
       {{else}}
         {{#if acceptStudents }}
-          <div class="actions">
-            <div class="ui button primary submit fluid big" id="enroll-button">Enroll Now!</div>
+          <div class="col-md-12">
+            <a href="{{ pathFor 'student_course_contract' courseId=shortid }}"><button type="button" class="btn btn-success btn-lg btn-block">Enroll Now!</button></a>
           </div>
-          {{> StudentAcceptContract}}
         {{else}}
-          <div class="actions">
-            <div class="ui button primary submit fluid big disabled">Enrollments are closed!</div>
+          <div class="col-md-12">
+            <button type="button" class="btn btn-success disabled btn-lg btn-block">Enrollments are closed!</button>
           </div>
         {{/if}}
       {{/if}}
     {{/if}}
   {{/if}}
-
 
   {{/with}}
 </template>
@@ -76,16 +70,24 @@
 
 
 <template name="StudentAcceptContract">
-  <div class="ui test long modal student-accept-contract">
-    <div class="header">
-      Course Contract for {{ title }} [{{ code }}]
+  {{#with course }}
+    <h4 class="title-border">Course Contract for {{ title }} [{{ code }}]</h4>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            {{{ contract }}}
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <button type="button" class="btn btn-success contract-button btn-lg btn-block" aria-expanded="false" id="contract-submit-button">ACCEPT</button>
+        </div>
+        <div class="col-md-6">
+          <button type="button" class="btn btn-warning contract-button btn-lg btn-block" aria-expanded="false" id="contract-dismiss-button">DISMISS</button>
+        </div>
+      </div>
     </div>
-    <div class="content">
-      {{{ contract }}}
-    </div>
-    <div class="actions">
-      <div class="ui button cancel contract-button" id="contract-dismiss-button">DISMISS</div>
-      <div class="ui button positive primary submit contract-button" id="contract-submit-button">ACCEPT</div>
-    </div>
-  </div>
+  {{/with}}
 </template>

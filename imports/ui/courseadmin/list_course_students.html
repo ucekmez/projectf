@@ -1,30 +1,24 @@
 <template name="CourseAdminListCourseStudents">
-  <h1>List of Students for {{ course.title }} [{{ course.code }}]</h1>
+  <h4 class="title-border">List of Students for {{ course.title }} [{{ course.code }}]</h4>
 
-  <div class="ui divider"></div>
 
-  <h3>Pending Registrations</h3>
-  <div class="ui divider"></div>
-  <table class="ui very basic padded table">
+  <h5 class="title-border">Pending Registrations</h5>
+
+  <table class="table">
     <tbody>
       <tr>
         {{#each course.pending }}
           <td>
-            <h4 class="ui header">
-              <div class="content" style="width:100%;">
-                  {{#with get_student_profile _id }}
-                      {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
-                      {{ emails.[0].address }}
-                  {{/with}}
-                  <a style="cursor:pointer;" id="accept-pending-student" data-tooltip="Accept student!" data-position="top center" data-inverted=""><i class="ui big green checkmark icon"></i></a>
-                <div class="sub header">
-                  requested {{ dateFromNow date }}
-                </div>
-              </div>
-            </h4>
+            {{#with get_student_profile _id }}
+                {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
+                {{ emails.[0].address }}
+            {{/with}}
           </td>
-          <td class="single line right aligned">
-            <!-- <a id="remove-user" style="cursor:pointer;" data-tooltip="Remove" data-position="right center" data-inverted=""><i class="huge red remove icon listing"></i></a> -->
+          <td>
+            requested {{ dateFromNow date }}
+          </td>
+          <td>
+            <a style="cursor:pointer;" id="accept-pending-student"><span class="badge" style="background-color: green;">accept!</span></a>
           </td>
         {{else}}
           There are no pending registrations!
@@ -33,28 +27,23 @@
     </tbody>
   </table>
 
-  <h3>Enrolled Students</h3>
-  <div class="ui divider"></div>
-  <table class="ui very basic padded table">
+  <h5 class="title-border">Enrolled Students</h5>
+
+  <table class="table">
     <tbody>
       <tr>
         {{#each course.students }}
           <td>
-            <h4 class="ui header">
-              <div class="content" style="width:100%;">
-                  {{#with get_student_profile _id }}
-                      {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
-                      {{ emails.[0].address }}
-                  {{/with}}
-                  <a style="cursor:pointer;" id="suspend-student-registration" data-tooltip="Suspend registration!" data-position="top center" data-inverted=""><i class="ui big red pause icon"></i></a>
-                <div class="sub header">
-                  accepted {{ dateFromNow date }}
-                </div>
-              </div>
-            </h4>
+            {{#with get_student_profile _id }}
+                {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
+                {{ emails.[0].address }}
+            {{/with}}
           </td>
-          <td class="single line right aligned">
-            <!-- <a id="remove-user" style="cursor:pointer;" data-tooltip="Remove" data-position="right center" data-inverted=""><i class="huge red remove icon listing"></i></a> -->
+          <td>
+            accepted {{ dateFromNow date }}
+          </td>
+          <td>
+            <a style="cursor:pointer;" id="suspend-student-registration"><span class="badge" style="background-color: red;">suspend!</span></a>
           </td>
         {{else}}
           There are no enrolled students!
@@ -63,28 +52,23 @@
     </tbody>
   </table>
 
-  <h3>Suspended Registrations</h3>
-  <div class="ui divider"></div>
-  <table class="ui very basic padded table">
+  <h5 class="title-border">Suspended Registrations</h5>
+
+  <table class="table">
     <tbody>
       <tr>
         {{#each course.suspended }}
           <td>
-            <h4 class="ui header">
-              <div class="content" style="width:100%;">
-                  {{#with get_student_profile _id }}
-                      {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
-                      {{ emails.[0].address }}
-                  {{/with}}
-                  <a style="cursor:pointer;" id="accept-suspended-student" data-tooltip="Accept again!" data-position="top center" data-inverted=""><i class="ui big teal checkmark icon"></i></a>
-                <div class="sub header">
-                  suspended {{ dateFromNow date }}
-                </div>
-              </div>
-            </h4>
+            {{#with get_student_profile _id }}
+                {{#if profile.name }}{{ profile.name }},{{else}}NONAME,{{/if}}
+                {{ emails.[0].address }}
+            {{/with}}
           </td>
-          <td class="single line right aligned">
-            <!-- <a id="remove-user" style="cursor:pointer;" data-tooltip="Remove" data-position="right center" data-inverted=""><i class="huge red remove icon listing"></i></a> -->
+          <td>
+            suspended {{ dateFromNow date }}
+          </td>
+          <td>
+            <a style="cursor:pointer;" id="accept-suspended-student"><span class="badge" style="background-color: green;">accept!</span></a>
           </td>
         {{else}}
           There are no suspended registrations!
@@ -92,4 +76,5 @@
       </tr>
     </tbody>
   </table>
+
 </template>

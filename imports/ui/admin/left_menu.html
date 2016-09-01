@@ -1,27 +1,17 @@
 <template name="AdminLeftMenu">
-  <div class="ui" style="border-right:1px dashed gray;">
-    <h3><i class="settings icon"></i> Profile Management</h3>
-    <div class="menu">
-      <a href="{{ pathFor 'admin_edit_profile' }}" class="item"><i class="edit icon"></i> Edit Profile</a><br />
-    </div>
 
-    <h3><i class="user icon"></i> User Management</h3>
-    <div class="menu">
-      <a class="item" id="admin-add-new-user-left-menu" style="cursor:pointer;"><i class="user add icon"></i> Add New User</a><br />
-      <a href="{{ pathFor 'admin_list_courseadmins' }}" class="item"><i class="list layout icon"></i> Course Admins</a><br />
-      <a href="{{ pathFor 'admin_list_instructors' }}" class="item"><i class="list layout icon"></i> Instructors</a><br />
-      <a href="{{ pathFor 'admin_list_students' }}" class="item"><i class="list layout icon"></i> Students</a><br />
-    </div>
-
-
-    <h3><i class="write icon"></i> Blog Management</h3>
-    <div class="menu">
-      <a href="http://localhost:2368/admin/" style="cursor:pointer;"><i class="external icon"></i> Blog Admin</a><br />
-    </div>
-
+  <h4 class="title-border">Profile Management</h4>
+  <div class="menu">
+    <a href="{{ pathFor 'admin_edit_profile' }}" class="item"><i class="edit icon"></i> Edit Profile</a><br /><br />
   </div>
 
-  {{#if isInRole 'admin'}}
-    {{> AdminAddNewUser }}
-  {{/if}}
+
+  <h4 class="title-border">User Management</h4>
+  <div class="menu">
+    <a href="{{ pathFor 'admin_add_new_user' }}" style="cursor:pointer;"><i class="user add icon"></i> Add New User</a><br />
+    <a href="{{ pathFor 'admin_list_courseadmins' }}" class="item"><i class="list layout icon"></i> Course Admins</a><br />
+    <a href="{{ pathFor 'admin_list_instructors' }}" class="item"><i class="list layout icon"></i> Instructors</a><br />
+    <a href="{{ pathFor 'admin_list_students' }}" class="item"><i class="list layout icon"></i> Students</a><br />
+  </div>
+
 </template>

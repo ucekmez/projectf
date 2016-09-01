@@ -1,33 +1,30 @@
 <template name="CourseAdminEditContract">
-  <h1>Edit Course Contract for <i>{{ course.title }} [{{ course.code }}]</i></h1>
-  <div class="ui divider"></div>
+  <h4 class="title-border">Edit Course Contract for <i>{{ course.title }} [{{ course.code }}]</i></h4>
 
 
   {{#unless contract_alert_seen }}
-    <div class="ui info message">
-      <i class="close icon"></i>
-      <div class="header">
-        Attention! Be aware that students are required to accept these rules in order to enroll!
-      </div>
+
+    <div class="alert alert-warning" role="alert">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+      Attention! Be aware that students are required to accept these rules in order to enroll!
+      <span style="float:right;font-size:20px;" class="glyphicon glyphicon-remove message-close-icon"></span>
     </div>
   {{/unless}}
 
   {{#with course}}
-    <div class="twelve wide column edit-contract">
-      <!-- form div starts-->
-      <div class="ui">
-        <div class="ui form">
-
-          <div class="field">
-            {{> froalaReactive getFEContext disableRightClick=true}}
-          </div>
-
-          <div class="actions">
-            <div class="ui button primary submit fluid big" id="edit-contract-ok-button">OK</div>
-          </div>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          {{> froalaReactive getFEContext disableRightClick=true}}
         </div>
       </div>
-      <!-- /form div ends-->
+      <br />
+
+      <div class="row">
+        <div class="col-md-12">
+          <button type="button" class="btn btn-primary btn-lg btn-block" id="edit-contract-ok-button">Submit</button>
+        </div>
+      </div>
     </div>
   {{/with}}
 </template>

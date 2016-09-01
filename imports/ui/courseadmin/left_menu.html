@@ -1,15 +1,14 @@
 <template name="CourseAdminLeftMenu">
-  <div class="ui" style="border-right:1px dashed gray;">
-    <h3><i class="settings icon"></i> Profile Management</h3>
-    <div class="menu">
-      <a href="{{ pathFor 'courseadmin_edit_profile' }}" class="item"><i class="edit icon"></i> Edit Profile</a><br />
-    </div>
 
-    <h3><i class="user icon"></i> Course Management</h3>
-    <div class="menu">
-      <a class="item" href="{{ pathFor 'courseadmin_list_courses' }}"><i class="user add icon"></i> List Courses</a><br />
-    </div>
+  <h4 class="title-border">Profile Management</h4>
+  <div class="menu">
+    <a href="{{ pathFor 'courseadmin_edit_profile' }}" class="item">Edit Profile</a><br /><br />
+  </div>
 
+
+  <h4 class="title-border">Course Management</h4>
+  <div class="menu">
+    <a class="item" href="{{ pathFor 'courseadmin_list_courses' }}">List Courses</a><br />
   </div>
 
 </template>

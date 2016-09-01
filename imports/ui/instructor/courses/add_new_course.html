@@ -1,42 +1,61 @@
 <template name="InstructorAddNewCourse">
-  <!-- add new company modal -->
-  <div class="ui basic modal add-new-course">
-    <div class="ui container">
-      <div class="ui grid centered">
-        <div class="sixteen wide column add-new-course">
-          <!-- form div starts-->
-            <div class="ui inverted form">
-              <div class="two fields">
-                <div class="field">
-                  <label>Course Code</label>
-                  <input type="text" placeholder="CS101" name="code" id="code">
-                </div>
-                <div class="field">
-                  <label>Course Title</label>
-                  <input type="text" placeholder="Course Title" name="title" id="title">
-                </div>
-              </div>
+  <h4 class="title-border">Add New Course</h4>
 
-              <div class="two fields">
-                <div class="field">
-                  <label>Opens At</label>
-                  <input type="text" placeholder="YYYY-MM-DD" name="startdate" id="startdate"/>
-                </div>
-
-                <div class="field">
-                  <label>Ends At</label>
-                  <input type="text" placeholder="YYYY-MM-DD" name="enddate" id="enddate">
-                </div>
-              </div>
-
-              <div class="actions">
-                <div class="ui button cancel add-new-course-button" id="add-new-course-dismiss-button">Dismiss</div>
-                <div class="ui button positive primary submit add-new-course-button" id="add-new-course-submit-button">Submit</div>
-              </div>
-            </div>
-          <!-- /form div ends-->
+  <div class="col-md-12">
+    <form id="add-new-course">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Course Code</label>
+            <input class="form-control" name="code_edit" id="code" placeholder="CS101" type="text" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Course Title</label>
+            <input class="form-control" name="title_edit" id="title" placeholder="Course Title" type="text" required>
+          </div>
         </div>
       </div>
-    </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Opens At</label>
+            <input class="form-control" name="startdate" id="startdate" placeholder="YYYY-MM-DD" type="text" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Ends At</label>
+            <input class="form-control" name="enddate" id="enddate" placeholder="YYYY-MM-DD" type="text" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="checkbox-inline">
+              <input type="checkbox" id="is-active" name="is_active"> Is Visible?
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="checkbox-inline">
+              <input type="checkbox" id="accept-students" name="accept_students"> Accept Enrollments?
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <button type="button" class="btn btn-primary btn-lg btn-block" id="add-new-course-submit-button">Submit</button>
+        </div>
+      </div>
+
+    </form>
   </div>
 </template>

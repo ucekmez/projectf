@@ -1,29 +1,91 @@
 <template name="InstructorEditScheduleLayout">
-  <div class="ui container instructor-layout">
-    {{> Template.dynamic template=nav}}
-    {{> Template.dynamic template=main}}
-  </div>
+  <body>
+  	<div class="body-inner">
+    	<!-- Header start -->
+      {{> Template.dynamic template=nav}}
+
+
+      {{#unless isInRole 'instructor'}}
+        You are not authorized to see this page!
+      {{else}}
+        <!-- Main container start -->
+
+        <section id="main-container">
+          <div class="container">
+
+            <div class="row">
+              <div class="col-md-12">
+                {{> Template.dynamic template=main}}
+              </div><!--/ Col end -->
+            </div><!-- Content row  end -->
+
+
+          </div><!--/ container end -->
+        </section><!--/ Main container end -->
+      {{/unless}}
+
+
+    	<!-- Footer start -->
+    	<section id="copyright" class="copyright angle">
+    		<div class="container">
+    			<div class="row">
+    				<div class="col-md-12 text-center">
+    					<ul class="footer-social unstyled">
+    						<li>
+    							<a title="Twitter" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-twitter"></i></span>
+    							</a>
+    							<a title="Facebook" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-facebook"></i></span>
+    							</a>
+    							<a title="Google+" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-google-plus"></i></span>
+    							</a>
+    							<a title="linkedin" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-linkedin"></i></span>
+    							</a>
+    							<a title="Pinterest" href="#">
+    								<span class="icon-pentagon wow bounceIn"><i class="fa fa-pinterest"></i></span>
+    							</a>
+    						</li>
+    					</ul>
+    				</div>
+    			</div><!--/ Row end -->
+    			<div class="row">
+    				<div class="col-md-12 text-center">
+    					<div class="copyright-info">
+             			 &copy; Copyright 2015 Croweer Inc. <span>All Rights Reserved</span>
+            			</div>
+    				</div>
+    			</div><!--/ Row end -->
+    		</div><!--/ Container end -->
+    	</section><!--/ Footer end -->
+
+  	</div><!-- Body inner end -->
+  </body>
 </template>
+
+
 
 <template name="InstructorEditSchedule">
   <div style="margin-bottom:10px;margin-top:10px;" class="show-edit-name">
-    <h2>Schedule for {{ course.title }} [{{ course.code }}]</h2>
+    <h2>Schedule for {{ course.title }} [{{ course.code }}] [<a style="font-size:0.6em;" href="{{ pathFor 'instructor_list_courses' }}">back</a>]</h2>   
   </div>
 
-  <div class="ui stackable grid">
-    <div class="four wide column thumbnails">
+  <div class="row edit-wrapper" style="min-height:380px;">
+    <div class="col-md-3">
       <ul class="schedule-thumbnails">
         {{#sortable items=weeks options=sortableOptions}}
-          <li class="schedule-week ui segment" id="thumbnail">
-            <i class="red delete icon" style="cursor:pointer" id="week-delete-icon" aria-hidden="true"></i>
+          <li class="schedule-week panel panel-default" id="thumbnail">
+            <span class="glyphicon glyphicon-remove huge-icon" style="cursor:pointer; color:red;" id="week-delete-icon" aria-hidden="true"></span>
             <span>{{{ scaleText content }}}</span>
           </li>
         {{/sortable}}
-        <div class="add-icon-container"><i class="huge blue add icon" style="cursor:pointer;" id="week-add-icon" aria-hidden="true"></i></div>
+        <div class="add-icon-container"><span class="glyphicon glyphicon-plus huge-icon" style="cursor:pointer;color:blue;" id="week-add-icon" aria-hidden="true"></span></div>
       </ul>
     </div>
 
-    <div class="twelve wide column">
+    <div class="col-md-9">
       <div id="start-editing">
           <h3>Please choose a note to edit.</h3>
       </div>

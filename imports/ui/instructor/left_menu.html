@@ -1,16 +1,15 @@
 <template name="InstructorLeftMenu">
-  <div class="ui" style="border-right:1px dashed gray;">
-    <h3><i class="settings icon"></i> Profile Management</h3>
-    <div class="menu">
-      <a href="{{ pathFor 'instructor_edit_profile' }}" class="item"><i class="edit icon"></i> Edit Profile</a><br />
-    </div>
 
-    <h3><i class="user icon"></i> Course Management</h3>
-    <div class="menu">
-      <a class="item" id="instructor-add-new-course" style="cursor:pointer;"><i class="user add icon"></i> Add New Course</a><br />
-      <a href="{{ pathFor 'instructor_list_courses' }}" class="item"><i class="list layout icon"></i> Course List</a><br />
-    </div>
-
-
+  <h4 class="title-border">Profile Management</h4>
+  <div class="menu">
+    <a href="{{ pathFor 'instructor_edit_profile' }}" class="item"><i class="edit icon"></i> Edit Profile</a><br /><br />
   </div>
+
+
+  <h4 class="title-border">Course Management</h4>
+  <div class="menu">
+    <a href="{{ pathFor 'instructor_add_new_course' }}" class="item" > Add New Course</a><br />
+    <a href="{{ pathFor 'instructor_list_courses' }}" class="item"> Course List</a><br />
+  </div>
+
 </template>

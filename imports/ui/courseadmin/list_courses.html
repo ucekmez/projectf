@@ -1,72 +1,74 @@
 <template name="CourseAdminListCourses">
-  <h1>List of Courses</h1>
+  <h4 class="title-border">List of Courses</h4>
 
-  <div class="ui divider"></div>
-  <table class="ui very basic padded table">
-    <tbody>
-      {{#if subsReady 'CoursesForCourseAdmin'}}
-        {{#each courses}}
-          {{> CourseAdminListCoursesTable}}
-        {{else}}
-          There are no courses yet!
-        {{/each}}
-      {{else}}
-        <h3 style="color:#ddd;">Please wait, your request is loading...</h3>
-      {{/if}}
-    </tbody>
-  </table>
+  {{#if subsReady 'CoursesForCourseAdmin'}}
+    {{#if courses}}
+      <div class="panel panel-default">
+        <table class="table">
+          <thead> <tr> <th>#</th> <th>Title [code]</th> <th>Start</th> <th>End</th> <th>Given By</th><th>Actions</th></tr> </thead>
+          <tbody>
+            {{#each courses}}
+              {{> CourseAdminListCoursesTable}}
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    {{else}}
+      <p style="padding-top:10px;padding-left:10px;">There are no courses yet!</p>
+    {{/if}}
+  {{else}}
+    <h3 style="color:#ddd;">Please wait, your request is loading...</h3>
+  {{/if}}
 </template>
+
+
+
 
 
 <template name="CourseAdminListCoursesTable">
   <tr>
+    <th scope="row">{{ index }}</th>
     <td>
-      <h4 class="ui header">
-        <div class="content" style="width:100%;">
-          <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
-          {{ title }} [{{ code }}]
-
-          {{#if isActive }}
-            <div class="ui left pointing teal basic label">visible!</div>
-          {{else}}
-            <div class="ui left pointing red basic label">hidden!</div>
-          {{/if }}
-
-          {{#if acceptStudents }}
-            <div class="ui left pointing teal basic label">Enrollments accepted!</div>
-          {{else}}
-            <div class="ui left pointing red basic label">Enrollments rejected!</div>
-          {{/if }}
-
-          <div class="sub header">
-            {{#if hasPassed startDate }}
-              started <b>{{ dateFromNow startDate }}</b>,
-            {{else}}
-              starts <b>{{ dateFromNow startDate }}</b>,
-            {{/if}}
-
-            {{#if hasPassed endDate }}
-              ended <b>{{ dateFromNow endDate }}</b>,
-            {{else}}
-              ends <b>{{ dateFromNow endDate }}</b>,
-            {{/if}}
-
-            given by <b>
-              {{#with givenBy shortid }}
-                {{#if profile.name }}{{ profile.name}}{{else}}{{emails.[0].address}}{{/if}}
-              {{/with}}</b>
-          </div>
-        </div>
-      </h4>
-    </td>
-    <td class="single line right aligned">
-      {{#if hasContract shortid }}
-        <a href="{{ pathFor 'courseadmin_edit_contract' courseId=shortid }}" data-tooltip="Edit Course Contract" data-position="left center"   data-inverted=""><i class="huge green ordered list icon listing"></i></a>
+      <a href="{{ pathFor 'instructor_single_course' courseId=shortid }}">{{ title }} [{{ code }}]</a><br />
+      {{#if isActive }}
+        <span class="badge" style="background-color: green;">visible!</span>
       {{else}}
-        <a href="{{ pathFor 'courseadmin_edit_contract' courseId=shortid }}" data-tooltip="Add Contract to this Course" data-position="left center"   data-inverted=""><i class="huge orange ordered list icon listing"></i></a>
-      {{/if}}
+        <span class="badge">hidden!</span>
+      {{/if }}
 
-        <a href="{{ pathFor 'courseadmin_list_course_students' courseId=shortid }}" data-tooltip="Manage Students" data-position="left center"   data-inverted=""><i class="huge teal users icon listing"></i></a>
+      {{#if acceptStudents }}
+        <span class="badge" style="background-color: green;">Enrollments accepted!</span>
+      {{else}}
+        <span class="badge">Enrollments rejected!</span>
+      {{/if }}
+    </td>
+    <td>
+      {{#if hasPassed startDate }}
+        started <b>{{ dateFromNow startDate }}</b>,
+      {{else}}
+        starts <b>{{ dateFromNow startDate }}</b>,
+      {{/if}}
+    </td>
+    <td>
+      {{#if hasPassed endDate }}
+        ended <b>{{ dateFromNow endDate }}</b>,
+      {{else}}
+        ends <b>{{ dateFromNow endDate }}</b>,
+      {{/if}}
+    </td>
+    <td>
+      {{#with givenBy shortid }}
+        {{#if profile.name }}{{ profile.name}}{{else}}{{emails.[0].address}}{{/if}}
+      {{/with}}
+    </td>
+    <td>
+      {{#if hasContract shortid }}
+        <a href="{{ pathFor 'courseadmin_edit_contract' courseId=shortid }}"><span class="label label-success">Edit Contract</span></a>
+      {{else}}
+        <a href="{{ pathFor 'courseadmin_edit_contract' courseId=shortid }}"><span class="label label-warning">Add Contract</span></a>
+      {{/if}}
+      <a href="{{ pathFor 'courseadmin_list_course_students' courseId=shortid }}"><span class="label label-danger">Students</span></a>
+
     </td>
   </tr>
 </template>

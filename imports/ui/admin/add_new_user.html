@@ -1,55 +1,29 @@
 <template name="AdminAddNewUser">
-  <!-- add new company modal -->
-  <div class="ui basic modal add-new-user">
-    <div class="ui container">
-      <div class="ui grid centered">
-        <div class="sixteen wide column add-new-user">
-          <!-- form div starts-->
-            <div class="ui inverted form">
-              <div class="three fields">
-                <div class="field">
-                  <label>Username</label>
-                  <input type="text" placeholder="username" name="username" id="username">
-                </div>
-                <div class="field">
-                  <label>Authorized E-Mail</label>
-                  <input type="email" placeholder="user@site.com" name="email" id="email">
-                </div>
-                <div class="field">
-                  <label>Password</label>
-                  <input type="password" placeholder="********" name="password" id="password">
-                </div>
-              </div>
-
-              <div class="inline fields">
-                <div class="field">
-                  <div class="ui radio checkbox role">
-                    <input type="radio" name="role" checked="checked" id="role1" value="1">
-                    <label style="cursor:pointer;" for="role1">Course Admin</label>
-                  </div>
-                </div>
-                <div class="field">
-                  <div class="ui radio checkbox role">
-                    <input type="radio" name="role" id="role2"  value="2">
-                    <label style="cursor:pointer;" for="role2">Instructor</label>
-                  </div>
-                </div>
-                <div class="field">
-                  <div class="ui radio checkbox role">
-                    <input type="radio" name="role" id="role3" value="3">
-                    <label style="cursor:pointer;" for="role3">Student</label>
-                  </div>
-                </div>
-              </div>
-
-              <div class="actions">
-                <div class="ui button cancel add-new-user-button" id="add-new-user-dismiss-button">Dismiss</div>
-                <div class="ui button positive primary submit add-new-user-button" id="add-new-user-submit-button">Submit</div>
-              </div>
-            </div>
-          <!-- /form div ends-->
+  <h4 class="title-border">Add New User</h4>
+  <div class="col-md-12">
+    <form>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Email</label>
+            <input class="form-control" name="email" id="email" placeholder="user@email.com" type="email" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Password</label>
+          <input class="form-control" name="password" id="password" placeholder="********" type="password" required>
+          </div>
         </div>
       </div>
-    </div>
+
+      <label class="radio-inline"><input type="radio" name="role" id="role1" value="1">Course Admin</label>
+      <label class="radio-inline"><input type="radio" name="role" id="role2" value="2">Instructor</label>
+      <label class="radio-inline"><input type="radio" name="role" id="role3" value="3">Student</label>
+
+      <div class="text-right"><br>
+        <button class="btn btn-primary solid blank" type="button" id="admin-add-new-user-button">Submit</button>
+      </div>
+    </form>
   </div>
 </template>

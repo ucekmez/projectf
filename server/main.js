@@ -121,7 +121,10 @@ Meteor.publish("SingleCourseForStudent", function(course_shortid){
 
 Meteor.publish("SingleCourseScheduleForStudent", function(course_shortid){
   if (Roles.userIsInRole(this.userId, ['student'])) {
-    return Schedules.find({course: course_shortid});
+    const student = Courses.findOne({ shortid : course_shortid , 'students._id': this.userId });
+    if (student) {
+      return Schedules.find({course: course_shortid});
+    }
   }
 });
 

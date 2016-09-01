@@ -1,79 +1,80 @@
 <template name="AdminListCourseAdmins">
-  <h1>List of Course Admins</h1>
+  <h4 class="title-border">List of Course Admins</h4>
 
-  <div class="ui divider"></div>
-  <table class="ui very basic padded table">
-    <tbody>
-      {{#if subsReady 'UsersForAdmin'}}
-        {{#each users}}
-          {{> AdminListUsersTable}}
-        {{else}}
-          There are no course admins yet!
-        {{/each}}
-      {{else}}
-        <h3 style="color:#ddd;">Please wait, your request is loading...</h3>
-      {{/if}}
-    </tbody>
-  </table>
+  {{#if subsReady 'UsersForAdmin'}}
+    {{#if users}}
+      <div class="panel panel-default">
+        <table class="table">
+          <thead> <tr> <th>#</th> <th>Name</th> <th>Email</th> <th>Created</th> <th>Remove</th></tr> </thead>
+          <tbody>
+            {{#each users}}
+              {{> AdminListUsersTable}}
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    {{else}}
+      <p style="padding-top:10px;padding-left:10px;">There are no course admins yet!</p>
+    {{/if}}
+  {{else}}
+    <h3 style="color:#ddd;">Please wait, your request is loading...</h3>
+  {{/if}}
 </template>
 
 <template name="AdminListInstructors">
-  <h1>List of Instructors</h1>
+  <h4 class="title-border">List of Instructors</h4>
 
-  <div class="ui divider"></div>
-  <table class="ui very basic padded table">
-    <tbody>
-      {{#if subsReady 'UsersForAdmin'}}
-        {{#each users}}
-          {{> AdminListUsersTable}}
-        {{else}}
-          There are no instructors yet!
-        {{/each}}
-      {{else}}
-        <h3 style="color:#ddd;">Please wait, your request is loading...</h3>
-      {{/if}}
-    </tbody>
-  </table>
+  {{#if subsReady 'UsersForAdmin'}}
+    {{#if users}}
+      <div class="panel panel-default">
+        <table class="table">
+          <thead> <tr> <th>#</th> <th>Name</th> <th>Email</th> <th>Created</th> <th>Remove</th></tr> </thead>
+          <tbody>
+            {{#each users}}
+              {{> AdminListUsersTable}}
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    {{else}}
+      <p style="padding-top:10px;padding-left:10px;">There are no instructors yet!</p>
+    {{/if}}
+  {{else}}
+    <h3 style="color:#ddd;">Please wait, your request is loading...</h3>
+  {{/if}}
 </template>
 
 <template name="AdminListStudents">
-  <h1>List of Students</h1>
+  <h4 class="title-border">List of Students</h4>
 
-  <div class="ui divider"></div>
-  <table class="ui very basic padded table">
-    <tbody>
-      {{#if subsReady 'UsersForAdmin'}}
-        {{#each users}}
-          {{> AdminListUsersTable}}
-        {{else}}
-          There are no students yet!
-        {{/each}}
+  {{#if subsReady 'UsersForAdmin'}}
+      {{#if users}}
+        <div class="panel panel-default">
+          <table class="table">
+            <thead> <tr> <th>#</th> <th>Name</th> <th>Email</th> <th>Created</th> <th>Remove</th></tr> </thead>
+            <tbody>
+              {{#each users}}
+                {{> AdminListUsersTable}}
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
       {{else}}
-        <h3 style="color:#ddd;">Please wait, your request is loading...</h3>
+        <h5 style="color:#ddd;">There are no students yet!</h5>
       {{/if}}
-    </tbody>
-  </table>
+  {{else}}
+    <h3 style="color:#ddd;">Please wait, your request is loading...</h3>
+  {{/if}}
 </template>
 
 
 
 <template name="AdminListUsersTable">
   <tr>
-    <td>
-      <h4 class="ui header">
-        <div class="content" style="width:100%;">
-          <span class="ui large header" style="margin-right:10px;float:left;">{{ index }}</span>
-          <a class="list-item-header" href=""><i class="blue edit icon"></i>
-            {{#if name }}{{ name }},{{else}}{{#if username }}{{username}},{{/if}}{{/if}}
-            {{ emails.[0].address }}</a>
-          <div class="sub header">
-            created <b>{{ dateFromNow createdAt}}</b>
-          </div>
-        </div>
-      </h4>
-    </td>
-    <td class="single line right aligned">
-      <a id="remove-user" style="cursor:pointer;" data-tooltip="Remove" data-position="right center" data-inverted=""><i class="huge red remove icon listing"></i></a>
-    </td>
+    <th scope="row">{{ index }}</th>
+    <td>{{#if profile.name }}{{ profile.name }}{{else}}<span style="color:#666;">None Entered</span>{{/if}}</td>
+    <td>{{ emails.[0].address }}</td>
+    <td>{{ dateFromNow createdAt}}</td>
+    <td><a id="remove-user" style="cursor:pointer;"><span class="label label-danger">Remove</span></a></td>
   </tr>
 </template>

@@ -4,8 +4,9 @@
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 80px;
-  max-height: 80px;
+  height: 400px;
+  max-height: 400px;
+  overflow: scroll;
 }
 
 .schedule-week {
@@ -50,10 +51,11 @@
 
 #week-delete-icon {
   z-index:999;
-  position:absolute;
+  position:relative;
+  padding:0;
+  margin-left:-16px;
+  margin-top:-16px;
   float:left;
-  margin-left: -10px;
-  margin-top: 4px;
   color: red;
   font-size:30px;
 }
@@ -75,7 +77,7 @@
 
 .week-area {
   z-index: 10;
-  position:absolute;
+  position:relative;
   width:96%;
   height:400px;
 }
